@@ -1,28 +1,18 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const sections = document.querySelectorAll("section");
-    const options = {
-        threshold: 0.1
-    };
+document.addEventListener('DOMContentLoaded', () => {
+  const navToggle = document.getElementById('nav-toggle');
+  const navList = document.getElementById('nav-list');
+  const header = document.getElementById('header');
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.animation = "fadeInUp 1s forwards";
-            }
-        });
-    }, options);
+  navToggle.addEventListener('click', () => {
+    navList.classList.toggle('open');
+  });
 
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-
-    // Smooth Scroll for Navigation
-    document.querySelectorAll("nav a").forEach(anchor => {
-        anchor.addEventListener("click", function(event) {
-            event.preventDefault();
-            const targetId = this.getAttribute("href").substring(1);
-            const targetSection = document.getElementById(targetId);
-            targetSection.scrollIntoView({ behavior: "smooth" });
-        });
-    });
+  // Toggle header background on scroll
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
 });
