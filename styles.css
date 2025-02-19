@@ -279,10 +279,23 @@ footer {
   Responsive Adjustments
 ----------------------------------------------------------*/
 @media (max-width: 1024px) {
-  .mobile-header { display: block; }
+  .mobile-header {
+    display: block;
+    background: var(--background);
+    border-bottom: 0px solid rgba(240,240,240,0.1);
+    padding: 0.5rem 1rem; /* Reduced vertical padding */
+    height: 50px;       /* Set an explicit height */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1001;
+  }
   #sidebar {
     transform: translateX(-100%);
     transition: transform 0.3s ease;
+    top: 0px; /* Push the sidebar down so it appears below the header */
+    height: calc(100vh - 70px); /* Adjust the height so it fits below the header */
+    z-index: 2000; /* or any number higher than 1001 */
   }
   #sidebar.active {
     transform: translateX(0);
