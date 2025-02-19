@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const heroTitle = document.getElementById('hero-title');
-  const textToType = "Senior AI Research Engineer — TS/SCI";
+  const textToType = "Senior AI Research Engineer";
   const typingSpeed = 100; // milliseconds per character
 
   if (heroTitle) {
