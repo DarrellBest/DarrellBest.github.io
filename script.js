@@ -7,6 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
     sidebar.classList.toggle('active');
   });
 
+  // Hide sidebar when a link is clicked in mobile mode
+  const sidebarLinks = document.querySelectorAll('#sidebar a');
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth < 1024) {
+        sidebar.classList.remove('active');
+      }
+    });
+  });
+
   // Detect scroll direction
   let lastScroll = window.pageYOffset || document.documentElement.scrollTop;
   let scrollDirection = "down"; // default
@@ -24,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Get all sections
   const sections = document.querySelectorAll('.section');
 
-  // Initialize each section with a hidden state based on initial scroll direction (default "down")
+  // Initialize each section with a hidden state (default hidden-down)
   sections.forEach(section => {
     section.classList.add('hidden-down');
   });
@@ -38,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sectionObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // Remove both hidden classes and add animate
+        // Remove any hidden classes and add animate
         entry.target.classList.remove('hidden-down', 'hidden-up');
         entry.target.classList.add('animate');
       } else {

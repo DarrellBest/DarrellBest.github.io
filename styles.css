@@ -284,7 +284,7 @@ footer {
     background: var(--background);
     border-bottom: 0px solid rgba(240,240,240,0.1);
     padding: 0.5rem 1rem; /* Reduced vertical padding */
-    height: 50px;       /* Set an explicit height */
+    height: 70px;       /* Set an explicit height */
     position: fixed;
     top: 0;
     width: 100%;
