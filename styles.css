@@ -294,8 +294,8 @@ footer {
     transform: translateX(-100%);
     transition: transform 0.3s ease;
     top: 0px; /* Push the sidebar down so it appears below the header */
-    height: calc(100vh - 70px); /* Adjust the height so it fits below the header */
     z-index: 2000; /* or any number higher than 1001 */
+    overflow-x: hidden;
   }
   #sidebar.active {
     transform: translateX(0);
