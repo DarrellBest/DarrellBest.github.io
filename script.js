@@ -69,3 +69,25 @@ document.addEventListener('DOMContentLoaded', () => {
     sectionObserver.observe(section);
   });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  function typeWriter(element, text, speed) {
+    let i = 0;
+    function type() {
+      if (i < text.length) {
+        element.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(type, speed);
+      }
+    }
+    type();
+  }
+
+  const heroTitle = document.getElementById('hero-title');
+  const textToType = "Senior AI Research Engineer — TS/SCI";
+  const typingSpeed = 100; // milliseconds per character
+
+  if (heroTitle) {
+    typeWriter(heroTitle, textToType, typingSpeed);
+  }
+});
