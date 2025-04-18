@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     lastScroll = currentScroll <= 0 ? 0 : currentScroll;
   });
 
-  // Get all sections
-  const sections = document.querySelectorAll('.section');
+  // Get all sections except blog post content
+  const sections = document.querySelectorAll('.section:not(#blog-post-content):not(#blog-post-header)');
 
   // Initialize each section with a hidden state (default hidden-down)
   sections.forEach(section => {
@@ -68,14 +68,24 @@ document.addEventListener('DOMContentLoaded', () => {
   sections.forEach(section => {
     sectionObserver.observe(section);
   });
+
+  // Make sure blog post content sections are visible by default
+  document.querySelectorAll('#blog-post-content, #blog-post-header').forEach(section => {
+    section.style.opacity = '1';
+    section.style.transform = 'translateY(0)';
+  });
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+  // TypeWriter effect for hero title
   function typeWriter(element, text, speed) {
     let i = 0;
+    const cursor = '<span class="cursor">|</span>';
+    element.innerHTML = cursor;
+
     function type() {
       if (i < text.length) {
-        element.innerHTML += text.charAt(i);
+        element.innerHTML = text.substring(0, i + 1) + cursor;
         i++;
         setTimeout(type, speed);
       }
@@ -90,4 +100,52 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroTitle) {
     typeWriter(heroTitle, textToType, typingSpeed);
   }
+
+  // Parallax effect for background images
+  window.addEventListener('scroll', function() {
+    const parallaxBgs = document.querySelectorAll('.parallax-bg');
+    const scrollPosition = window.pageYOffset;
+
+    parallaxBgs.forEach(bg => {
+      const parent = bg.parentElement;
+      const parentTop = parent.offsetTop;
+      const speed = 0.5; // Adjust for faster/slower parallax
+
+      // Calculate new background position
+      const yPos = -(scrollPosition - parentTop) * speed;
+      bg.style.transform = `translateY(${yPos}px)`;
+    });
+  });
+
+  // Animate skill bars when they come into view
+  const skillLevels = document.querySelectorAll('.skill-level');
+
+  // Create a new Intersection Observer for skill bars
+  const skillObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Get the width from the style attribute and apply it
+        const width = entry.target.style.width;
+        entry.target.style.width = '0';
+
+        // Trigger reflow to ensure the animation works
+        entry.target.offsetWidth;
+
+        // Set the width back to animate it
+        setTimeout(() => {
+          entry.target.style.width = width;
+        }, 100);
+
+        // Unobserve after animation is triggered
+        skillObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.2
+  });
+
+  // Observe all skill levels
+  skillLevels.forEach(skill => {
+    skillObserver.observe(skill);
+  });
 });

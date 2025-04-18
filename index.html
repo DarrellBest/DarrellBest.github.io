@@ -49,6 +49,16 @@
         </a>
       </li>
       <li>
+        <a href="#projects" class="nav-item">
+          <i data-feather="file-text"></i>  Articles
+        </a>
+      </li>
+      <li>
+        <a href="blog.html" class="nav-item">
+          <i data-feather="book-open"></i>  Blog
+        </a>
+      </li>
+      <li>
         <a href="#education" class="nav-item">
           <i data-feather="book"></i>  Education
         </a>
@@ -56,6 +66,11 @@
       <li>
         <a href="#publications" class="nav-item">
           <i data-feather="file-text"></i>  Publications
+        </a>
+      </li>
+      <li>
+        <a href="#testimonials" class="nav-item">
+          <i data-feather="message-circle"></i>  Testimonials
         </a>
       </li>
       <li>
@@ -73,12 +88,17 @@
 
   <!-- Main Content Area -->
   <div id="maincontent">
-    <!-- Hero Section -->
-    <section id="hero" class="section">
+    <!-- Hero Section with Parallax -->
+    <section id="hero" class="section parallax-section">
+      <div class="parallax-bg"></div>
       <div class="container">
         <h2 id="hero-title"></h2>
         <p>Washington, D.C., United States </p>
         <p>> DOD TS/SCI Cleared </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary">Read My Articles</a>
+          <a href="#contact" class="btn btn-secondary">Contact Me</a>
+        </div>
       </div>
     </section>
 
@@ -141,6 +161,65 @@
       </div>
     </section>
 
+    <!-- Featured Articles Section -->
+    <section id="projects" class="section">
+      <div class="container">
+        <h2>Featured Articles</h2>
+        <div class="projects-grid">
+          <div class="project-card">
+            <div class="project-image">
+              <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Multilingual LLM Article">
+            </div>
+            <div class="project-content">
+              <h3>The Future of Multilingual AI</h3>
+              <p>Exploring how multilingual large language models are breaking down language barriers and enabling global communication. This article discusses the challenges and breakthroughs in training models across multiple languages simultaneously.</p>
+              <div class="project-tags">
+                <span class="tag">Research</span>
+                <span class="tag">NLP</span>
+                <span class="tag">Global AI</span>
+              </div>
+              <a href="blog/multilingual-ai-future.html" class="btn btn-sm">Read Article</a>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-image">
+              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2068&q=80" alt="Federated Learning Article">
+            </div>
+            <div class="project-content">
+              <h3>Privacy-Preserving AI with Federated Learning</h3>
+              <p>How federated learning is revolutionizing data privacy in machine learning. This article examines the architecture, challenges, and real-world applications of training models without centralizing sensitive data.</p>
+              <div class="project-tags">
+                <span class="tag">Privacy</span>
+                <span class="tag">Distributed Systems</span>
+                <span class="tag">Security</span>
+              </div>
+              <a href="blog/privacy-preserving-ai.html" class="btn btn-sm">Read Article</a>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-image">
+              <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Medical AI Article">
+            </div>
+            <div class="project-content">
+              <h3>AI in Healthcare: Transforming Medical Diagnostics</h3>
+              <p>An in-depth look at how AI is revolutionizing medical text classification and diagnosis. This article covers the technical challenges, ethical considerations, and potential future developments in healthcare AI.</p>
+              <div class="project-tags">
+                <span class="tag">Healthcare</span>
+                <span class="tag">Ethics</span>
+                <span class="tag">Medical AI</span>
+              </div>
+              <a href="blog/ai-healthcare-diagnostics.html" class="btn btn-sm">Read Article</a>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <a href="blog.html" class="btn btn-primary">View All Articles</a>
+        </div>
+      </div>
+    </section>
+
     <!-- Education Section -->
     <section id="education" class="section">
       <div class="container">
@@ -174,14 +253,152 @@
       </div>
     </section>
 
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section parallax-section">
+      <div class="parallax-bg testimonials-bg"></div>
+      <div class="container">
+        <h2>What Colleagues Say</h2>
+        <div class="testimonials-slider">
+          <div class="testimonial">
+            <div class="testimonial-content">
+              <p>"Replace Text"</p>
+            </div>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="First Name Last Name">
+              <div>
+                <h4>First Name Last Name</h4>
+                <p>Position, Company</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="testimonial-content">
+              <p>"Replace Text"</p>
+            </div>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="First Name Last Name">
+              <div>
+                <h4>First Name Last Name</h4>
+                <p>Position, Company</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="testimonial-content">
+              <p>"Replace Text"</p>
+            </div>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="First Name Last Name">
+              <div>
+                <h4>First Name Last Name</h4>
+                <p>Position, Company</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Skills Section -->
     <section id="skills" class="section">
       <div class="container">
         <h2>Skills</h2>
-        <ul>
-          <li><strong>Tools:</strong> Python, PyTorch, PyTorch Lightning, TensorFlow, Docker, Git, CI/CD</li>
-          <li><strong>AI/NLP:</strong> Natural Language Processing, Deep Learning, Model Optimization</li>
-        </ul>
+        <div class="skills-container">
+          <div class="skill-category">
+            <h3>Programming</h3>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span>Python</span>
+                <span>95%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-level" style="width: 95%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span>JavaScript</span>
+                <span>80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-level" style="width: 80%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span>C++</span>
+                <span>75%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-level" style="width: 75%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <h3>AI/ML Frameworks</h3>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span>PyTorch</span>
+                <span>90%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-level" style="width: 90%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span>Hugging Face</span>
+                <span>85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-level" style="width: 85%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span>TensorFlow</span>
+                <span>80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-level" style="width: 80%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <h3>DevOps & Tools</h3>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span>Docker</span>
+                <span>85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-level" style="width: 85%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span>Git/GitHub</span>
+                <span>90%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-level" style="width: 90%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span>CI/CD</span>
+                <span>75%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-level" style="width: 75%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Darrell S. Best Jr.</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Load Feather Icons from unpkg -->
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+  <!-- Mobile Header (Visible on Mobile Only) -->
+  <header class="mobile-header">
+    <div class="container">
+      <h1 class="logo">Darrell S. Best Jr.</h1>
+      <button id="mobile-nav-toggle" aria-label="Toggle Navigation">
+        <span class="hamburger">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar Navigation -->
+  <nav id="sidebar">
+    <!-- Profile Picture Slot -->
+    <div class="profile-pic">
+      <img src="me.png" alt="Darrell S. Best Jr." />
+    </div>
+    <div class="nav-header">
+      <h2>Darrell S. Best Jr.</h2>
+    </div>
+    <ul>
+      <li>
+        <a href="index.html#hero" class="nav-item">
+          <i data-feather="home"></i>  Home
+        </a>
+      </li>
+      <li>
+        <a href="index.html#about" class="nav-item">
+          <i data-feather="user"></i>  About
+        </a>
+      </li>
+      <li>
+        <a href="index.html#experience" class="nav-item">
+          <i data-feather="briefcase"></i>  Experience
+        </a>
+      </li>
+      <li>
+        <a href="index.html#projects" class="nav-item">
+          <i data-feather="file-text"></i>  Articles
+        </a>
+      </li>
+      <li>
+        <a href="index.html#education" class="nav-item">
+          <i data-feather="book"></i>  Education
+        </a>
+      </li>
+      <li>
+        <a href="blog.html" class="nav-item active">
+          <i data-feather="book-open"></i>  Blog
+        </a>
+      </li>
+      <li>
+        <a href="index.html#publications" class="nav-item">
+          <i data-feather="file-text"></i>  Publications
+        </a>
+      </li>
+      <li>
+        <a href="index.html#testimonials" class="nav-item">
+          <i data-feather="message-circle"></i>  Testimonials
+        </a>
+      </li>
+      <li>
+        <a href="index.html#skills" class="nav-item">
+          <i data-feather="code"></i>  Skills
+        </a>
+      </li>
+      <li>
+        <a href="index.html#contact" class="nav-item">
+          <i data-feather="mail"></i>  Contact
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Content Area -->
+  <div id="maincontent">
+    <!-- Blog Header Section -->
+    <section id="blog-header" class="section parallax-section">
+      <div class="parallax-bg"></div>
+      <div class="container">
+        <h1>Blog</h1>
+        <p>Thoughts, insights, and deep dives into AI research and technology</p>
+      </div>
+    </section>
+
+    <!-- Blog Posts Section -->
+    <section id="blog-posts" class="section">
+      <div class="container">
+        <div class="blog-grid">
+          <!-- Blog Post 1 -->
+          <article class="blog-post">
+            <div class="blog-post-image">
+              <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Multilingual LLM Article">
+            </div>
+            <div class="blog-post-content">
+              <div class="blog-post-meta">
+                <span class="blog-post-date">April 15, 2025</span>
+                <span class="blog-post-category">Research</span>
+              </div>
+              <h2><a href="blog/multilingual-ai-future.html">The Future of Multilingual AI</a></h2>
+              <p>Exploring how multilingual large language models are breaking down language barriers and enabling global communication. This article discusses the challenges and breakthroughs in training models across multiple languages simultaneously.</p>
+              <div class="blog-post-tags">
+                <span class="tag">Research</span>
+                <span class="tag">NLP</span>
+                <span class="tag">Global AI</span>
+              </div>
+              <a href="blog/multilingual-ai-future.html" class="btn btn-sm">Read More</a>
+            </div>
+          </article>
+
+          <!-- Blog Post 2 -->
+          <article class="blog-post">
+            <div class="blog-post-image">
+              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2068&q=80" alt="Federated Learning Article">
+            </div>
+            <div class="blog-post-content">
+              <div class="blog-post-meta">
+                <span class="blog-post-date">March 22, 2025</span>
+                <span class="blog-post-category">Privacy</span>
+              </div>
+              <h2><a href="blog/privacy-preserving-ai.html">Privacy-Preserving AI with Federated Learning</a></h2>
+              <p>How federated learning is revolutionizing data privacy in machine learning. This article examines the architecture, challenges, and real-world applications of training models without centralizing sensitive data.</p>
+              <div class="blog-post-tags">
+                <span class="tag">Privacy</span>
+                <span class="tag">Distributed Systems</span>
+                <span class="tag">Security</span>
+              </div>
+              <a href="blog/privacy-preserving-ai.html" class="btn btn-sm">Read More</a>
+            </div>
+          </article>
+
+          <!-- Blog Post 3 -->
+          <article class="blog-post">
+            <div class="blog-post-image">
+              <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Medical AI Article">
+            </div>
+            <div class="blog-post-content">
+              <div class="blog-post-meta">
+                <span class="blog-post-date">May 10, 2025</span>
+                <span class="blog-post-category">Healthcare</span>
+              </div>
+              <h2><a href="blog/ai-healthcare-diagnostics.html">AI in Healthcare: Transforming Medical Diagnostics</a></h2>
+              <p>An in-depth look at how AI is revolutionizing medical text classification and diagnosis. This article covers the technical challenges, ethical considerations, and potential future developments in healthcare AI.</p>
+              <div class="blog-post-tags">
+                <span class="tag">Healthcare</span>
+                <span class="tag">Ethics</span>
+                <span class="tag">Medical AI</span>
+              </div>
+              <a href="blog/ai-healthcare-diagnostics.html" class="btn btn-sm">Read More</a>
+            </div>
+          </article>
+
+          <!-- Blog Post 4 -->
+          <article class="blog-post">
+            <div class="blog-post-image">
+              <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="AI Ethics Article">
+            </div>
+            <div class="blog-post-content">
+              <div class="blog-post-meta">
+                <span class="blog-post-date">March 5, 2025</span>
+                <span class="blog-post-category">Ethics</span>
+              </div>
+              <h2><a href="blog/ethical-considerations-ai.html">Ethical Considerations in AI Development</a></h2>
+              <p>Exploring the ethical challenges and responsibilities in developing advanced AI systems. This article discusses bias, transparency, accountability, and the importance of ethical frameworks in AI research.</p>
+              <div class="blog-post-tags">
+                <span class="tag">Ethics</span>
+                <span class="tag">Responsible AI</span>
+                <span class="tag">Policy</span>
+              </div>
+              <a href="blog/ethical-considerations-ai.html" class="btn btn-sm">Read More</a>
+            </div>
+          </article>
+
+          <!-- Blog Post 5 -->
+          <article class="blog-post">
+            <div class="blog-post-image">
+              <img src="https://images.unsplash.com/photo-1591405351990-4726e331f141?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="AI Hardware Article">
+            </div>
+            <div class="blog-post-content">
+              <div class="blog-post-meta">
+                <span class="blog-post-date">February 18, 2025</span>
+                <span class="blog-post-category">Hardware</span>
+              </div>
+              <h2><a href="blog/hardware-acceleration-ai.html">Hardware Acceleration for AI: FPGAs vs. GPUs</a></h2>
+              <p>A comparative analysis of hardware acceleration options for AI workloads. This article examines the pros and cons of FPGAs and GPUs for different AI applications and deployment scenarios.</p>
+              <div class="blog-post-tags">
+                <span class="tag">Hardware</span>
+                <span class="tag">FPGA</span>
+                <span class="tag">GPU</span>
+                <span class="tag">Performance</span>
+              </div>
+              <a href="blog/hardware-acceleration-ai.html" class="btn btn-sm">Read More</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Darrell S. Best Jr. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+  <!-- Initialize Feather Icons -->
+  <script>
+    feather.replace();
+  </script>
+</body>
+</html>
