@@ -140,8 +140,8 @@
 
 /* Premium Experience Section Styling */
 article {
-  margin-bottom: 4.5rem;
-  padding: 2.5rem 3rem;
+  margin-bottom: 2.5rem;
+  padding: 2rem 2.5rem;
   border-radius: var(--radius-lg);
   background: linear-gradient(
     135deg,
@@ -184,7 +184,7 @@ article:hover::before {
 }
 
 article:last-child {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 article h3 {
@@ -197,13 +197,13 @@ article h3 {
 }
 
 article ul {
-  margin-top: 1.5rem;
+  margin-top: 1.2rem;
   margin-bottom: 0.5rem;
 }
 
 article ul li {
-  margin-bottom: 1rem;
-  line-height: 1.6;
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
 }
 
 .date-range {
@@ -229,9 +229,9 @@ article ul li {
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 3rem;
-  margin-top: 3.5rem;
-  margin-bottom: 3rem;
+  gap: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 /* Premium Project/Article Cards */
@@ -366,18 +366,18 @@ article ul li {
 /* Premium Skills Section */
 .skills-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 3.5rem;
-  margin-top: 4rem;
-  margin-bottom: 1.5rem;
-  width: 90%;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  width: 95%;
   margin-left: auto;
   margin-right: auto;
 }
 
 .skill-category {
   background: linear-gradient(145deg, var(--background-secondary) 0%, var(--background-tertiary) 100%);
-  padding: 2.8rem 2.5rem;
+  padding: 1.8rem 1.5rem;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   border: 1px solid rgba(255, 255, 255, 0.03);
@@ -408,13 +408,13 @@ article ul li {
 
 .skill-category h3 {
   margin-top: 0;
-  margin-bottom: 2.2rem;
+  margin-bottom: 1.5rem;
   color: var(--foreground);
   position: relative;
-  padding-bottom: 1rem;
+  padding-bottom: 0.6rem;
   font-weight: 600;
   display: inline-block;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 }
 
 .skill-category h3::after {
@@ -429,7 +429,7 @@ article ul li {
 }
 
 .skill-item {
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.2rem;
   position: relative;
 }
 
@@ -440,7 +440,7 @@ article ul li {
 .skill-info {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.5rem;
   font-weight: 500;
 }
 
@@ -457,7 +457,7 @@ article ul li {
 }
 
 .skill-bar {
-  height: 6px;
+  height: 5px;
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-full);
   overflow: hidden;

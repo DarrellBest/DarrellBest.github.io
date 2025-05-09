@@ -63,7 +63,7 @@
   }
 
   .section {
-    padding: 4rem 0;
+    padding: 3rem 0;
   }
 
   #hero h2 {
@@ -118,7 +118,7 @@
 
   /* Ensure proper spacing */
   .section {
-    padding: 3rem 0;
+    padding: 2.5rem 0;
   }
   
   /* Refined project cards */
@@ -128,6 +128,12 @@
   
   .project-image {
     height: 180px;
+  }
+  
+  /* Skills section goes to 2 columns */
+  .skills-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
   }
 }
 
@@ -189,6 +195,16 @@
   
   .section {
     padding: 2.5rem 0;
+  }
+  
+  /* Skills section goes to 1 column on mobile */
+  .skills-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .skill-category {
+    padding: 1.5rem;
   }
   
   /* Refined blog experience on mobile */
