@@ -1,0 +1,186 @@
+/*----------------------------------------------------------
+  Base Styles and Typography
+----------------------------------------------------------*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+Pro:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+  -webkit-text-rendering: optimizeLegibility;
+  text-rendering: optimizeLegibility;
+  color: var(--foreground);
+  background-color: var(--background);
+  scroll-behavior: smooth;
+  font-size: 16px; /* Base font size */
+}
+
+body {
+  margin: 0;
+  counter-reset: sidenote-counter;
+  background-color: var(--background);
+  line-height: 1.75; /* Improved line height for better readability */
+  font-weight: 400;
+  letter-spacing: 0.01em; /* Slight letter spacing for better readability */
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin-top: 0;
+  margin-bottom: 0.8em;
+  color: var(--foreground);
+  letter-spacing: -0.02em;
+}
+
+/* Golden ratio typographic scale (1.618) */
+h1 { 
+  font-size: 4.236rem; /* 16px × 1.618^5 */
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+h2 { 
+  font-size: 2.618rem; /* 16px × 1.618^4 */
+  letter-spacing: -0.03em;
+  position: relative;
+  font-weight: 700;
+}
+
+h3 { 
+  font-size: 1.618rem; /* 16px × 1.618^3 */
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+h4 { 
+  font-size: 1.38rem; /* 16px × 1.618^2 */
+  font-weight: 600;
+}
+
+h5 { 
+  font-size: 1.2rem; /* 16px × 1.618^1 */
+  font-weight: 500;
+}
+
+h6 { 
+  font-size: 1rem; 
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+p {
+  margin-bottom: 1.5rem;
+  line-height: 1.75;
+  font-size: 1rem;
+  max-width: 70ch; /* Optimal reading line length */
+}
+
+.blog-post-full p {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+
+/* Section headings with refined accent line */
+h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+  margin-top: 0.7rem;
+  border-radius: 1px;
+  opacity: 0.8;
+  transition: width 0.3s ease;
+}
+
+h2:hover::after {
+  width: 80px;
+}
+
+/* Enhanced Code blocks */
+code, pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+pre {
+  background-color: rgba(30, 30, 30, 0.8);
+  color: var(--foreground);
+  overflow: auto;
+  font-size: 0.9rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin: 2rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+}
+
+pre::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  font-size: 0.7rem;
+  background: var(--accent);
+  color: var(--background);
+  padding: 0.2rem 0.7rem;
+  border-radius: 0 0 5px 5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+code {
+  background-color: rgba(78, 204, 163, 0.07);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Container & Layout */
+.container {
+  width: 90%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* Section animations */
+.section.hidden-down {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.section.hidden-up {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.section.animate {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.section {
+  padding: 5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+}
+
+.section:first-of-type {
+  padding-top: 3rem;
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}

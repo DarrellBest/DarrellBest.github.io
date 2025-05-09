@@ -1,0 +1,300 @@
+/*----------------------------------------------------------
+  Layout Components
+----------------------------------------------------------*/
+
+/* Main Content */
+#maincontent {
+  margin-left: var(--sidebar-width);
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+/* Premium Sidebar Navigation */
+#sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: linear-gradient(180deg, var(--background-secondary) 0%, var(--background-tertiary) 100%);
+  padding-top: 2.5rem;
+  overflow-y: auto;
+  z-index: 1000;
+  text-align: left;
+  box-shadow: var(--shadow-md);
+  border-right: 1px solid rgba(255, 255, 255, 0.03);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+#sidebar::-webkit-scrollbar-track {
+  background: var(--background-tertiary);
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+}
+
+.profile-pic {
+  margin: 0 auto 2rem;
+  text-align: center;
+  padding: 0 25px;
+  position: relative;
+}
+
+.profile-pic::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(78, 204, 163, 0.15) 0%, transparent 70%);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.profile-pic:hover::after {
+  opacity: 1;
+}
+
+.profile-pic img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+  border: 3px solid transparent;
+  box-shadow: var(--shadow-md), 0 0 0 2px var(--accent);
+  object-fit: cover;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  filter: grayscale(15%);
+}
+
+.profile-pic img:hover {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+  box-shadow: var(--shadow-lg), 0 0 0 2px var(--accent-dark);
+}
+
+#sidebar .nav-header {
+  margin-bottom: 2.2rem;
+  padding: 0 20px;
+}
+
+#sidebar .nav-header h2 {
+  font-size: 1.4rem;
+  margin: 0;
+  text-align: center;
+  color: var(--foreground);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#sidebar .nav-header h2::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 2px;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(to right, var(--accent), var(--accent-dark));
+  border-radius: var(--radius-full);
+}
+
+#sidebar ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 2rem;
+}
+
+#sidebar ul li {
+  margin: 0.5rem 0;
+  padding: 0 18px;
+}
+
+#sidebar ul li a {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  padding: 0.9rem 1.2rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  width: 100%;
+  border-radius: var(--radius-md);
+  color: var(--foreground-secondary);
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+#sidebar ul li a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    var(--accent-lighter) 0%,
+    rgba(78, 204, 163, 0.03) 100%
+  );
+  z-index: -1;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+#sidebar ul li a:hover::before,
+#sidebar ul li a.active::before {
+  transform: translateX(0);
+}
+
+#sidebar ul li a:hover,
+#sidebar ul li a.active {
+  color: var(--accent);
+}
+
+#sidebar ul li a.active {
+  border-left: 3px solid var(--accent);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Style icons within menu items */
+.nav-item svg {
+  margin-right: 12px;
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.2;
+  transition: transform 0.3s ease;
+}
+
+.nav-item:hover svg {
+  transform: translateX(2px);
+  color: var(--accent);
+}
+
+/* Mobile Header & Responsive Sidebar */
+.mobile-header {
+  display: none;
+  background: var(--background-secondary);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 1rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1001;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+}
+
+.mobile-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.mobile-header .logo {
+  font-size: 1.5rem;
+  color: var(--foreground);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.mobile-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--foreground);
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: var(--transition-medium);
+}
+
+.mobile-header button:hover {
+  background-color: var(--background-tertiary);
+}
+
+/* Hamburger Menu */
+.hamburger {
+  padding: 10px;
+  display: inline-block;
+  cursor: pointer;
+  transition: var(--transition-medium);
+  background-color: transparent;
+  border: none;
+  margin: 0;
+}
+
+.hamburger:hover {
+  opacity: 0.8;
+}
+
+.hamburger-box {
+  width: 30px;
+  height: 20px;
+  display: inline-block;
+  position: relative;
+  z-index: 6;
+}
+
+.hamburger-inner {
+  position: absolute;
+  top: 50%;
+  margin-top: -2px;
+  width: 30px;
+  height: 2px;
+  background-color: var(--accent);
+  border-radius: 4px;
+  transition: var(--transition-medium);
+}
+
+.hamburger-inner::before,
+.hamburger-inner::after {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 2px;
+  background-color: var(--accent);
+  border-radius: 4px;
+  transition: var(--transition-medium);
+}
+
+.hamburger-inner::before {
+  top: -8px;
+}
+
+.hamburger-inner::after {
+  bottom: -8px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 3rem 0;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  background-color: var(--background-secondary);
+  margin-top: 2rem;
+}
+
+footer p {
+  color: var(--foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}

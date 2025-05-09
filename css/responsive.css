@@ -1,0 +1,204 @@
+/*----------------------------------------------------------
+  Responsive Design
+----------------------------------------------------------*/
+
+/* Enhanced Responsive Design */
+@media (max-width: 1280px) {
+  html {
+    font-size: 15px; /* Slightly smaller base font on medium screens */
+  }
+  
+  .container {
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 1024px) {
+  html {
+    font-size: 14px; /* Adjust base size for tablets */
+  }
+
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    height: 70px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  #sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    top: 0;
+    width: 300px;
+    z-index: 2000;
+    overflow-x: hidden;
+    background-color: var(--background-secondary);
+  }
+
+  #sidebar.active {
+    transform: translateX(0);
+    box-shadow: var(--shadow-lg);
+  }
+
+  #maincontent {
+    margin-left: 0;
+    padding-top: 90px; /* account for mobile header */
+  }
+
+  /* Adjust typography for tablets */
+  h1 { 
+    font-size: 3.5rem; 
+    letter-spacing: -0.03em;
+  }
+  
+  h2 { 
+    font-size: 2.2rem; 
+    letter-spacing: -0.02em;
+  }
+  
+  h3 { 
+    font-size: 1.5rem; 
+  }
+
+  .section {
+    padding: 4rem 0;
+  }
+
+  #hero h2 {
+    font-size: 2.8rem;
+  }
+  
+  /* Refined article styling on tablets */
+  article {
+    padding: 1.8rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  article:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 13px; /* Further adjust for smaller tablets/large phones */
+  }
+
+  .container {
+    width: 92%;
+    padding: 1.2rem;
+    max-width: none;
+  }
+
+  article {
+    padding: 1.5rem;
+  }
+
+  /* Typography adjustments for medium screens */
+  h1 { 
+    font-size: 3rem; 
+    line-height: 1.1;
+  }
+  
+  h2 { 
+    font-size: 2rem; 
+  }
+  
+  h3 { 
+    font-size: 1.4rem; 
+  }
+  
+  p {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  /* Ensure proper spacing */
+  .section {
+    padding: 3rem 0;
+  }
+  
+  /* Refined project cards */
+  .project-card {
+    flex-direction: column;
+  }
+  
+  .project-image {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 13px; /* Base size for phones */
+  }
+  
+  .mobile-header {
+    height: 60px;
+  }
+  
+  .mobile-header .logo {
+    font-size: 1.2rem;
+  }
+
+  article {
+    margin-bottom: 1.5rem;
+    padding: 1.25rem;
+  }
+
+  .date-range {
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-bottom: 0.8rem;
+  }
+
+  /* Mobile typography */
+  h1 { 
+    font-size: 2.5rem; 
+    letter-spacing: -0.02em;
+  }
+  
+  h2 { 
+    font-size: 1.8rem; 
+  }
+  
+  h3 { 
+    font-size: 1.3rem; 
+  }
+  
+  #hero {
+    min-height: 85vh;
+  }
+  
+  #hero h2 {
+    font-size: 2.2rem;
+  }
+  
+  #hero p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+  
+  .container {
+    width: 94%;
+    padding: 1rem;
+  }
+  
+  .section {
+    padding: 2.5rem 0;
+  }
+  
+  /* Refined blog experience on mobile */
+  .blog-post-full p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+  
+  blockquote {
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+}
