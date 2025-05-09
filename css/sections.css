@@ -519,28 +519,36 @@ article ul li {
 
 /* Contact Section */
 #contact .container {
-  background-color: var(--background-secondary);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  box-shadow: var(--shadow-md);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  /* Removed box styling to match other sections */
 }
 
 #contact p {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
 }
 
 #contact p strong {
   min-width: 100px;
   color: var(--accent);
+  font-weight: 600;
 }
 
 #contact a {
   position: relative;
   display: inline-flex;
   align-items: center;
+  color: var(--foreground);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-weight: 500;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(78, 204, 163, 0.2);
+}
+
+#contact a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 
 #contact a svg {
