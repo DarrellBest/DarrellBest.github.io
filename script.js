@@ -39,10 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
     section.classList.add('hidden-down');
   });
 
-  // Intersection Observer for sections
+  // Intersection Observer for sections - lower threshold for quicker animations
   const observerOptions = {
     root: null,
-    threshold: 0.15 // trigger when 15% is visible
+    threshold: 0.05, // trigger when just 5% is visible for faster response
+    rootMargin: '0px 0px -100px 0px' // Start animation slightly before section comes into view
   };
 
   const sectionObserver = new IntersectionObserver((entries) => {
@@ -101,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     typeWriter(heroTitle, textToType, typingSpeed);
   }
 
-  // Parallax effect for background images
+  // Parallax effect for background images (lighter effect)
   window.addEventListener('scroll', function() {
     const parallaxBgs = document.querySelectorAll('.parallax-bg');
     const scrollPosition = window.pageYOffset;
@@ -109,11 +110,15 @@ document.addEventListener('DOMContentLoaded', () => {
     parallaxBgs.forEach(bg => {
       const parent = bg.parentElement;
       const parentTop = parent.offsetTop;
-      const speed = 0.5; // Adjust for faster/slower parallax
-
-      // Calculate new background position
-      const yPos = -(scrollPosition - parentTop) * speed;
-      bg.style.transform = `translateY(${yPos}px)`;
+      const speed = 0.2; // Reduced for a more subtle parallax effect
+      
+      // Only apply parallax within a reasonable range to avoid extreme movement
+      if (scrollPosition > parentTop - window.innerHeight && 
+          scrollPosition < parentTop + parent.offsetHeight) {
+        // Calculate new background position with a more gentle effect
+        const yPos = -(scrollPosition - parentTop) * speed;
+        bg.style.transform = `translateY(${yPos}px)`;
+      }
     });
   });
 

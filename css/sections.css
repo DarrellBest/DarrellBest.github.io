@@ -4,10 +4,11 @@
 
 /* Premium Hero Section with Advanced Gradient Effects */
 #hero {
-  padding-bottom: 3rem;
+  padding: 6rem 0;
   position: relative;
   overflow: hidden;
-  height: 100vh;
+  min-height: 80vh; /* Changed from fixed height to minimum height */
+  max-height: 900px; /* Add max height to prevent excessive stretching */
   display: flex;
   align-items: center;
   isolation: isolate;
@@ -26,9 +27,11 @@
   background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  /* Removed fixed attachment for smoother scrolling */
+  background-attachment: scroll;
   opacity: 0.1;
   z-index: -1;
+  will-change: transform; /* Optimize for animation performance */
 }
 
 #hero::before {
