@@ -25,45 +25,63 @@ body {
   letter-spacing: 0.01em; /* Slight letter spacing for better readability */
 }
 
-/* Typography */
+/* Typography - Enhanced spacing and visual hierarchy */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   line-height: 1.2;
   margin-top: 0;
-  margin-bottom: 0.8em;
+  margin-bottom: 1.2em;
   color: var(--foreground);
   letter-spacing: -0.02em;
+  max-width: 30ch; /* Prevent overly long headings */
 }
 
-/* Golden ratio typographic scale (1.618) */
+/* Section headings should have more space above */
+section h1, section h2, section h3 {
+  margin-top: 1em;
+  margin-bottom: 1.5em;
+}
+
+/* Golden ratio typographic scale (1.618) with refined spacing */
 h1 { 
-  font-size: 4.236rem; /* 16px × 1.618^5 */
-  letter-spacing: -0.04em;
-  line-height: 1.1;
+  font-size: 4.2rem; /* 16px × 1.618^5 */
+  letter-spacing: -0.03em;
+  line-height: 1.05;
   font-weight: 700;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.4em;
 }
 
 h2 { 
-  font-size: 2.618rem; /* 16px × 1.618^4 */
-  letter-spacing: -0.03em;
+  font-size: 2.5rem; /* 16px × 1.618^4 */
+  letter-spacing: -0.02em;
   position: relative;
   font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1.6rem;
+  padding-bottom: 0.3em;
 }
 
 h3 { 
-  font-size: 1.618rem; /* 16px × 1.618^3 */
-  letter-spacing: -0.02em;
+  font-size: 1.6rem; /* 16px × 1.618^3 */
+  letter-spacing: -0.015em;
   font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1.2rem;
 }
 
 h4 { 
-  font-size: 1.38rem; /* 16px × 1.618^2 */
+  font-size: 1.35rem; /* 16px × 1.618^2 */
   font-weight: 600;
+  margin-top: 1.8rem;
+  margin-bottom: 1rem;
 }
 
 h5 { 
-  font-size: 1.2rem; /* 16px × 1.618^1 */
+  font-size: 1.15rem; /* 16px × 1.618^1 */
   font-weight: 500;
+  margin-top: 1.5rem;
+  margin-bottom: 0.8rem;
 }
 
 h6 { 
@@ -71,36 +89,82 @@ h6 {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 500;
+  margin-top: 1.2rem;
+  margin-bottom: 0.8rem;
+  color: var(--foreground-secondary);
 }
 
 p {
-  margin-bottom: 1.5rem;
-  line-height: 1.75;
-  font-size: 1rem;
-  max-width: 70ch; /* Optimal reading line length */
+  margin-bottom: 1.8rem;
+  line-height: 1.8;
+  font-size: 1.05rem;
+  max-width: 72ch; /* Optimal reading line length */
+  color: var(--foreground);
+  letter-spacing: 0.01em;
+}
+
+p + h2, p + h3 {
+  margin-top: 2.5rem;
 }
 
 .blog-post-full p {
   font-family: var(--font-serif);
-  font-size: 1.125rem;
-  line-height: 1.8;
+  font-size: 1.15rem;
+  line-height: 1.85;
+  margin-bottom: 2rem;
+  color: var(--foreground);
 }
 
 /* Section headings with refined accent line */
 h2::after {
   content: '';
   display: block;
-  width: 60px;
+  width: 70px;
   height: 2px;
   background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
-  margin-top: 0.7rem;
+  margin-top: 0.9rem;
   border-radius: 1px;
   opacity: 0.8;
   transition: width 0.3s ease;
 }
 
 h2:hover::after {
-  width: 80px;
+  width: 90px;
+}
+
+/* Enhanced list styling */
+ul:not(#sidebar ul) {
+  padding-left: 1.5rem;
+  list-style-type: none;
+}
+
+ul:not(#sidebar ul) li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+ul:not(#sidebar ul) li::before {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  left: 0;
+  top: 0.65em;
+  border-radius: 50%;
+  background-color: var(--accent);
+  opacity: 0.8;
+}
+
+ol {
+  padding-left: 1.5rem;
+}
+
+ol li {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  padding-left: 0.5rem;
 }
 
 /* Enhanced Code blocks */
@@ -148,10 +212,11 @@ code {
 
 /* Container & Layout */
 .container {
-  width: 90%;
-  max-width: 900px;
+  width: 85%;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 1.5rem;
+  padding: 0;
+  position: relative;
 }
 
 /* Section animations */
@@ -172,15 +237,28 @@ code {
 }
 
 .section {
-  padding: 5rem 0;
+  padding: 7rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   position: relative;
+  margin-bottom: 1rem;
 }
 
 .section:first-of-type {
   padding-top: 3rem;
 }
 
+.section:not(:first-of-type)::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.03), transparent);
+}
+
 .section:last-of-type {
   border-bottom: none;
+  padding-bottom: 10rem;
 }
