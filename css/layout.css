@@ -287,6 +287,40 @@
   bottom: -8px;
 }
 
+/* Hamburger animation when active */
+.hamburger-inner.active {
+  transform: rotate(45deg);
+}
+
+.hamburger-inner.active::before {
+  top: 0;
+  transform: rotate(90deg);
+}
+
+.hamburger-inner.active::after {
+  bottom: 0;
+  opacity: 0;
+}
+
+/* Sidebar overlay for mobile */
+#sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1999;
+}
+
+#sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
 /* Footer */
 footer {
   text-align: center;

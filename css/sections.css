@@ -153,9 +153,9 @@ article {
   border: 1px solid rgba(255, 255, 255, 0.03);
   position: relative;
   overflow: hidden;
-  max-width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 article::before {
@@ -370,9 +370,9 @@ article ul li {
   gap: 1.5rem;
   margin-top: 2rem;
   margin-bottom: 0.5rem;
-  width: 95%;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .skill-category {

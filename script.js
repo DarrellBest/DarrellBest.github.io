@@ -2,20 +2,35 @@ document.addEventListener('DOMContentLoaded', () => {
   // Mobile nav toggle
   const mobileNavToggle = document.getElementById('mobile-nav-toggle');
   const sidebar = document.getElementById('sidebar');
+  const hamburger = document.querySelector('.hamburger-inner');
+  const overlay = document.getElementById('sidebar-overlay');
 
-  mobileNavToggle.addEventListener('click', () => {
-    sidebar.classList.toggle('active');
-  });
-
-  // Hide sidebar when a link is clicked in mobile mode
-  const sidebarLinks = document.querySelectorAll('#sidebar a');
-  sidebarLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      if (window.innerWidth < 1024) {
-        sidebar.classList.remove('active');
-      }
+  if (mobileNavToggle && sidebar) {
+    mobileNavToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      hamburger.classList.toggle('active');
+      overlay.classList.toggle('active');
     });
-  });
+
+    // Close sidebar when clicking overlay
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      hamburger.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+
+    // Hide sidebar when a link is clicked in mobile mode
+    const sidebarLinks = document.querySelectorAll('#sidebar a');
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth < 1024) {
+          sidebar.classList.remove('active');
+          hamburger.classList.remove('active');
+          overlay.classList.remove('active');
+        }
+      });
+    });
+  }
 
   // Detect scroll direction
   let lastScroll = window.pageYOffset || document.documentElement.scrollTop;

@@ -45,6 +45,8 @@
   #maincontent {
     margin-left: 0;
     padding-top: 90px; /* account for mobile header */
+    width: 100%;
+    max-width: 100%;
   }
 
   /* Adjust typography for tablets */
@@ -122,12 +124,22 @@
   }
   
   /* Refined project cards */
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
   .project-card {
     flex-direction: column;
   }
   
   .project-image {
     height: 180px;
+    width: 100%;
+  }
+  
+  .project-content {
+    padding: 1.2rem;
   }
   
   /* Skills section goes to 2 columns */
@@ -148,6 +160,13 @@
   
   .mobile-header .logo {
     font-size: 1.2rem;
+  }
+  
+  /* Fix mobile header container */
+  .mobile-header .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 1rem;
   }
 
   article {
@@ -188,6 +207,17 @@
     line-height: 1.5;
   }
   
+  /* Fix hero buttons on mobile */
+  .hero-cta {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .hero-cta .btn {
+    width: 100%;
+    max-width: 250px;
+  }
+  
   .container {
     width: 94%;
     padding: 1rem;
@@ -216,5 +246,71 @@
   blockquote {
     padding: 1.25rem 1.5rem;
     margin: 1.5rem 0;
+  }
+  
+  /* Fix navigation overflow on mobile */
+  #sidebar {
+    width: 280px;
+    max-width: 85vw;
+  }
+  
+  /* Ensure proper content width on mobile */
+  #maincontent {
+    width: 100%;
+    padding-top: 70px;
+  }
+  
+  /* Fix list items on mobile */
+  ul li {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Adjust project tags */
+  .project-tags {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  /* Fix date ranges on mobile */
+  article .date-range {
+    display: block;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Small phones (less than 380px) */
+@media (max-width: 380px) {
+  html {
+    font-size: 12px;
+  }
+  
+  h1 { 
+    font-size: 2.2rem; 
+  }
+  
+  h2 { 
+    font-size: 1.6rem; 
+  }
+  
+  h3 { 
+    font-size: 1.2rem; 
+  }
+  
+  #hero h2 {
+    font-size: 1.8rem;
+  }
+  
+  .container {
+    padding: 0.8rem;
+  }
+  
+  article {
+    padding: 1rem;
+  }
+  
+  .btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
   }
 }
