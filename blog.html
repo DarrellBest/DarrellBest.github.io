@@ -13,6 +13,282 @@
   <link rel="stylesheet" href="css/main.css" />
   <!-- Load Feather Icons from unpkg -->
   <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    /* Blog-specific styles */
+    #blog-header {
+      background: linear-gradient(135deg, var(--background-secondary) 0%, var(--background-tertiary) 100%);
+      padding: 4rem 0;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    #blog-header h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    #blog-header .subtitle {
+      font-size: 1.2rem;
+      color: var(--foreground-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Blog navigation/filters */
+    .blog-nav {
+      margin-bottom: 3rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .blog-categories {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .category-filter {
+      padding: 0.5rem 1.2rem;
+      background: rgba(78, 204, 163, 0.1);
+      border: 1px solid rgba(78, 204, 163, 0.2);
+      border-radius: var(--radius-full);
+      color: var(--accent);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .category-filter:hover,
+    .category-filter.active {
+      background: var(--accent);
+      color: var(--background);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(78, 204, 163, 0.3);
+    }
+
+    /* Blog grid layout */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Individual blog post card */
+    .blog-post {
+      background: var(--background-secondary);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .blog-post:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(78, 204, 163, 0.2);
+    }
+
+    /* Featured post styling - removed to make all posts equal */
+
+    .blog-post-image {
+      height: 250px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .blog-post-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .blog-post:hover .blog-post-image img {
+      transform: scale(1.08);
+    }
+
+    .blog-post-content {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    /* Blog post metadata */
+    .blog-post-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: var(--foreground-secondary);
+    }
+
+    .blog-post-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .blog-post-date {
+      color: var(--accent);
+    }
+
+    .blog-post-category {
+      background: rgba(78, 204, 163, 0.1);
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .reading-time {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.85rem;
+    }
+
+    .reading-time svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Blog post title */
+    .blog-post h2 {
+      margin: 0.5rem 0 1rem 0;
+      font-size: 1.8rem;
+      line-height: 1.3;
+    }
+
+    .blog-post h2 a {
+      color: var(--foreground);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .blog-post h2 a:hover {
+      color: var(--accent);
+    }
+
+    /* Blog post excerpt */
+    .blog-post-excerpt {
+      color: var(--foreground-secondary);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Blog post footer */
+    .blog-post-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+    }
+
+    .blog-post-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      color: var(--accent);
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .read-more:hover {
+      gap: 0.6rem;
+      color: var(--accent-dark);
+    }
+
+    .read-more svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .read-more:hover svg {
+      transform: translateX(3px);
+    }
+
+    /* Newsletter signup */
+    .newsletter-section {
+      background: linear-gradient(135deg, var(--background-secondary) 0%, var(--background-tertiary) 100%);
+      padding: 3rem;
+      border-radius: var(--radius-lg);
+      text-align: center;
+      margin: 4rem auto;
+      max-width: 600px;
+      border: 1px solid rgba(78, 204, 163, 0.2);
+    }
+
+    .newsletter-section h3 {
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .newsletter-section p {
+      margin-bottom: 2rem;
+      color: var(--foreground-secondary);
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      #blog-header h1 {
+        font-size: 2.5rem;
+      }
+
+      .blog-post h2 {
+        font-size: 1.5rem;
+      }
+
+      .blog-categories {
+        gap: 0.5rem;
+      }
+
+      .category-filter {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+      }
+    }
+
+    /* Loading skeleton */
+    .skeleton {
+      animation: skeleton-loading 1s linear infinite alternate;
+    }
+
+    @keyframes skeleton-loading {
+      0% {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+      100% {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- Mobile Header (Visible on Mobile Only) -->
@@ -28,6 +304,9 @@
       </button>
     </div>
   </header>
+
+  <!-- Mobile menu overlay -->
+  <div id="sidebar-overlay"></div>
 
   <!-- Sidebar Navigation -->
   <nav id="sidebar">
@@ -60,13 +339,13 @@
         </a>
       </li>
       <li>
-        <a href="index.html#education" class="nav-item">
-          <i data-feather="book"></i>  Education
+        <a href="blog.html" class="nav-item active">
+          <i data-feather="book-open"></i>  Blog
         </a>
       </li>
       <li>
-        <a href="blog.html" class="nav-item active">
-          <i data-feather="book-open"></i>  Blog
+        <a href="index.html#education" class="nav-item">
+          <i data-feather="book"></i>  Education
         </a>
       </li>
       <li>
@@ -90,11 +369,24 @@
   <!-- Main Content Area -->
   <div id="maincontent">
     <!-- Blog Header Section -->
-    <section id="blog-header" class="section parallax-section">
-      <div class="parallax-bg"></div>
+    <section id="blog-header" class="section">
       <div class="container">
-        <h1>Blog</h1>
-        <p>Thoughts, insights, and deep dives into AI research and technology</p>
+        <h1>AI Research Blog</h1>
+        <p class="subtitle">Deep dives into artificial intelligence, machine learning, and cutting-edge research</p>
+      </div>
+    </section>
+
+    <!-- Blog Categories/Filters -->
+    <section class="blog-nav">
+      <div class="container">
+        <div class="blog-categories">
+          <span class="category-filter active" data-category="all">All Posts</span>
+          <span class="category-filter" data-category="research">Research</span>
+          <span class="category-filter" data-category="privacy">Privacy</span>
+          <span class="category-filter" data-category="healthcare">Healthcare</span>
+          <span class="category-filter" data-category="ethics">Ethics</span>
+          <span class="category-filter" data-category="hardware">Hardware</span>
+        </div>
       </div>
     </section>
 
@@ -103,110 +395,142 @@
       <div class="container">
         <div class="blog-grid">
           <!-- Blog Post 1 -->
-          <article class="blog-post">
+          <article class="blog-post" data-category="research">
             <div class="blog-post-image">
               <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Multilingual LLM Article">
             </div>
             <div class="blog-post-content">
               <div class="blog-post-meta">
-                <span class="blog-post-date">April 15, 2025</span>
+                <span class="blog-post-date"><i data-feather="calendar"></i> April 15, 2025</span>
                 <span class="blog-post-category">Research</span>
+                <span class="reading-time"><i data-feather="clock"></i> 8 min read</span>
               </div>
               <h2><a href="blog/multilingual-ai-future.html">The Future of Multilingual AI</a></h2>
-              <p>Exploring how multilingual large language models are breaking down language barriers and enabling global communication. This article discusses the challenges and breakthroughs in training models across multiple languages simultaneously.</p>
-              <div class="blog-post-tags">
-                <span class="tag">Research</span>
-                <span class="tag">NLP</span>
-                <span class="tag">Global AI</span>
+              <p class="blog-post-excerpt">Exploring how multilingual large language models are breaking down language barriers and enabling global communication. This article discusses the challenges and breakthroughs in training models across multiple languages simultaneously, featuring the latest developments from 2024-2025.</p>
+              <div class="blog-post-footer">
+                <div class="blog-post-tags">
+                  <span class="tag">Research</span>
+                  <span class="tag">NLP</span>
+                  <span class="tag">Global AI</span>
+                </div>
+                <a href="blog/multilingual-ai-future.html" class="read-more">
+                  Read more <i data-feather="arrow-right"></i>
+                </a>
               </div>
-              <a href="blog/multilingual-ai-future.html" class="btn btn-sm">Read More</a>
             </div>
           </article>
 
           <!-- Blog Post 2 -->
-          <article class="blog-post">
-            <div class="blog-post-image">
-              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2068&q=80" alt="Federated Learning Article">
-            </div>
-            <div class="blog-post-content">
-              <div class="blog-post-meta">
-                <span class="blog-post-date">March 22, 2025</span>
-                <span class="blog-post-category">Privacy</span>
-              </div>
-              <h2><a href="blog/privacy-preserving-ai.html">Privacy-Preserving AI with Federated Learning</a></h2>
-              <p>How federated learning is revolutionizing data privacy in machine learning. This article examines the architecture, challenges, and real-world applications of training models without centralizing sensitive data.</p>
-              <div class="blog-post-tags">
-                <span class="tag">Privacy</span>
-                <span class="tag">Distributed Systems</span>
-                <span class="tag">Security</span>
-              </div>
-              <a href="blog/privacy-preserving-ai.html" class="btn btn-sm">Read More</a>
-            </div>
-          </article>
-
-          <!-- Blog Post 3 -->
-          <article class="blog-post">
+          <article class="blog-post" data-category="healthcare">
             <div class="blog-post-image">
               <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Medical AI Article">
             </div>
             <div class="blog-post-content">
               <div class="blog-post-meta">
-                <span class="blog-post-date">May 10, 2025</span>
+                <span class="blog-post-date"><i data-feather="calendar"></i> May 10, 2025</span>
                 <span class="blog-post-category">Healthcare</span>
+                <span class="reading-time"><i data-feather="clock"></i> 10 min read</span>
               </div>
               <h2><a href="blog/ai-healthcare-diagnostics.html">AI in Healthcare: Transforming Medical Diagnostics</a></h2>
-              <p>An in-depth look at how AI is revolutionizing medical text classification and diagnosis. This article covers the technical challenges, ethical considerations, and potential future developments in healthcare AI.</p>
-              <div class="blog-post-tags">
-                <span class="tag">Healthcare</span>
-                <span class="tag">Ethics</span>
-                <span class="tag">Medical AI</span>
+              <p class="blog-post-excerpt">An in-depth look at how AI is revolutionizing medical text classification and diagnosis. This article covers the technical challenges, ethical considerations, and potential future developments in healthcare AI.</p>
+              <div class="blog-post-footer">
+                <div class="blog-post-tags">
+                  <span class="tag">Healthcare</span>
+                  <span class="tag">Ethics</span>
+                  <span class="tag">Medical AI</span>
+                </div>
+                <a href="blog/ai-healthcare-diagnostics.html" class="read-more">
+                  Read more <i data-feather="arrow-right"></i>
+                </a>
               </div>
-              <a href="blog/ai-healthcare-diagnostics.html" class="btn btn-sm">Read More</a>
+            </div>
+          </article>
+
+          <!-- Blog Post 3 -->
+          <article class="blog-post" data-category="privacy">
+            <div class="blog-post-image">
+              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2068&q=80" alt="Federated Learning Article">
+            </div>
+            <div class="blog-post-content">
+              <div class="blog-post-meta">
+                <span class="blog-post-date"><i data-feather="calendar"></i> March 22, 2025</span>
+                <span class="blog-post-category">Privacy</span>
+                <span class="reading-time"><i data-feather="clock"></i> 7 min read</span>
+              </div>
+              <h2><a href="blog/privacy-preserving-ai.html">Privacy-Preserving AI with Federated Learning</a></h2>
+              <p class="blog-post-excerpt">How federated learning is revolutionizing data privacy in machine learning. This article examines the architecture, challenges, and real-world applications of training models without centralizing sensitive data.</p>
+              <div class="blog-post-footer">
+                <div class="blog-post-tags">
+                  <span class="tag">Privacy</span>
+                  <span class="tag">Distributed Systems</span>
+                  <span class="tag">Security</span>
+                </div>
+                <a href="blog/privacy-preserving-ai.html" class="read-more">
+                  Read more <i data-feather="arrow-right"></i>
+                </a>
+              </div>
             </div>
           </article>
 
           <!-- Blog Post 4 -->
-          <article class="blog-post">
+          <article class="blog-post" data-category="ethics">
             <div class="blog-post-image">
               <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="AI Ethics Article">
             </div>
             <div class="blog-post-content">
               <div class="blog-post-meta">
-                <span class="blog-post-date">March 5, 2025</span>
+                <span class="blog-post-date"><i data-feather="calendar"></i> March 5, 2025</span>
                 <span class="blog-post-category">Ethics</span>
+                <span class="reading-time"><i data-feather="clock"></i> 6 min read</span>
               </div>
               <h2><a href="blog/ethical-considerations-ai.html">Ethical Considerations in AI Development</a></h2>
-              <p>Exploring the ethical challenges and responsibilities in developing advanced AI systems. This article discusses bias, transparency, accountability, and the importance of ethical frameworks in AI research.</p>
-              <div class="blog-post-tags">
-                <span class="tag">Ethics</span>
-                <span class="tag">Responsible AI</span>
-                <span class="tag">Policy</span>
+              <p class="blog-post-excerpt">Exploring the ethical challenges and responsibilities in developing advanced AI systems. This article discusses bias, transparency, accountability, and the importance of ethical frameworks in AI research.</p>
+              <div class="blog-post-footer">
+                <div class="blog-post-tags">
+                  <span class="tag">Ethics</span>
+                  <span class="tag">Responsible AI</span>
+                  <span class="tag">Policy</span>
+                </div>
+                <a href="blog/ethical-considerations-ai.html" class="read-more">
+                  Read more <i data-feather="arrow-right"></i>
+                </a>
               </div>
-              <a href="blog/ethical-considerations-ai.html" class="btn btn-sm">Read More</a>
             </div>
           </article>
 
           <!-- Blog Post 5 -->
-          <article class="blog-post">
+          <article class="blog-post" data-category="hardware">
             <div class="blog-post-image">
               <img src="https://images.unsplash.com/photo-1591405351990-4726e331f141?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="AI Hardware Article">
             </div>
             <div class="blog-post-content">
               <div class="blog-post-meta">
-                <span class="blog-post-date">February 18, 2025</span>
+                <span class="blog-post-date"><i data-feather="calendar"></i> February 18, 2025</span>
                 <span class="blog-post-category">Hardware</span>
+                <span class="reading-time"><i data-feather="clock"></i> 9 min read</span>
               </div>
               <h2><a href="blog/hardware-acceleration-ai.html">Hardware Acceleration for AI: FPGAs vs. GPUs</a></h2>
-              <p>A comparative analysis of hardware acceleration options for AI workloads. This article examines the pros and cons of FPGAs and GPUs for different AI applications and deployment scenarios.</p>
-              <div class="blog-post-tags">
-                <span class="tag">Hardware</span>
-                <span class="tag">FPGA</span>
-                <span class="tag">GPU</span>
-                <span class="tag">Performance</span>
+              <p class="blog-post-excerpt">A comparative analysis of hardware acceleration options for AI workloads. This article examines the pros and cons of FPGAs and GPUs for different AI applications and deployment scenarios.</p>
+              <div class="blog-post-footer">
+                <div class="blog-post-tags">
+                  <span class="tag">Hardware</span>
+                  <span class="tag">FPGA</span>
+                  <span class="tag">GPU</span>
+                  <span class="tag">Performance</span>
+                </div>
+                <a href="blog/hardware-acceleration-ai.html" class="read-more">
+                  Read more <i data-feather="arrow-right"></i>
+                </a>
               </div>
-              <a href="blog/hardware-acceleration-ai.html" class="btn btn-sm">Read More</a>
             </div>
           </article>
+        </div>
+
+        <!-- Newsletter Signup -->
+        <div class="newsletter-section">
+          <h3>Stay Updated</h3>
+          <p>Get notified when I publish new articles about AI research and technology.</p>
+          <a href="index.html#contact" class="btn btn-primary">Contact Me</a>
         </div>
       </div>
     </section>
@@ -219,9 +543,47 @@
   </div>
 
   <script src="script.js"></script>
-  <!-- Initialize Feather Icons -->
   <script>
+    // Initialize Feather Icons
     feather.replace();
+
+    // Blog category filtering
+    document.addEventListener('DOMContentLoaded', function() {
+      const filters = document.querySelectorAll('.category-filter');
+      const posts = document.querySelectorAll('.blog-post');
+
+      filters.forEach(filter => {
+        filter.addEventListener('click', function() {
+          // Update active filter
+          filters.forEach(f => f.classList.remove('active'));
+          this.classList.add('active');
+
+          const category = this.getAttribute('data-category');
+
+          // Filter posts
+          posts.forEach(post => {
+            if (category === 'all' || post.getAttribute('data-category') === category) {
+              post.style.display = 'flex';
+              setTimeout(() => {
+                post.style.opacity = '1';
+                post.style.transform = 'translateY(0)';
+              }, 100);
+            } else {
+              post.style.opacity = '0';
+              post.style.transform = 'translateY(20px)';
+              setTimeout(() => {
+                post.style.display = 'none';
+              }, 300);
+            }
+          });
+        });
+      });
+
+      // Add transition styles to posts
+      posts.forEach(post => {
+        post.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+      });
+    });
   </script>
 </body>
 </html>
