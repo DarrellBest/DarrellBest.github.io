@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Chess Game with AI</title>
     <style>
         :root {
@@ -42,6 +42,9 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            /* Prevent viewport height changes from affecting layout */
+            height: 100vh;
+            overflow-y: auto;
         }
 
         .game-container {
@@ -309,6 +312,7 @@
                 touch-action: none; /* Prevent scrolling when dragging pieces */
                 position: relative;
                 /* Board size will be set by JavaScript */
+                min-height: 300px; /* Prevent layout shift */
             }
 
             .status {
@@ -532,18 +536,32 @@
         let game = new Chess();
         let playerColor = 'white';
         let aiThinking = false;
+        let initialBoardSize = null; // Store initial board size
 
         // Function to get board size based on screen width
         function getBoardSize() {
+            // If we already have an initial board size on mobile, use it
+            if (initialBoardSize && window.innerWidth <= 768) {
+                return initialBoardSize;
+            }
+            
             if (window.innerWidth <= 768) {
                 // Mobile: calculate size based on viewport width
                 const containerPadding = 30; // game-container padding
                 const extraPadding = 10; // extra margin
+                // Use document.documentElement.clientWidth for more stable measurement
+                const viewportWidth = document.documentElement.clientWidth;
                 const maxSize = Math.min(
-                    window.innerWidth - containerPadding - extraPadding,
+                    viewportWidth - containerPadding - extraPadding,
                     window.innerHeight - 400, // Leave room for UI elements
                     400 // Maximum mobile size
                 );
+                
+                // Store the initial size on mobile
+                if (!initialBoardSize) {
+                    initialBoardSize = maxSize;
+                }
+                
                 return maxSize;
             }
             return 560; // Desktop size
@@ -577,8 +595,7 @@
             }
         }
 
-        // Initialize board
-        initBoard();
+        // Don't initialize board immediately - wait for DOM ready
 
         // Copy FEN to clipboard
         function copyFEN() {
@@ -870,9 +887,23 @@
             updateBoard();
         }
 
-        // Handle window resize for all devices
+        // Handle window resize - but only for desktop or orientation changes
         let resizeTimeout;
+        let lastOrientation = window.orientation;
+        
         window.addEventListener('resize', function() {
+            // On mobile, only resize on orientation change, not viewport height changes
+            if (window.innerWidth <= 768) {
+                const currentOrientation = window.orientation;
+                if (currentOrientation === lastOrientation) {
+                    // Same orientation, likely just address bar hide/show
+                    return;
+                }
+                lastOrientation = currentOrientation;
+                // Reset initial board size for new orientation
+                initialBoardSize = null;
+            }
+            
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(function() {
                 initBoard();
@@ -881,7 +912,16 @@
 
         // Initialize
         $(document).ready(function() {
-            updateBoard();
+            // Wait a bit for viewport to stabilize on mobile
+            if (window.innerWidth <= 768) {
+                setTimeout(function() {
+                    initBoard();
+                    updateBoard();
+                }, 100);
+            } else {
+                initBoard();
+                updateBoard();
+            }
             
             // Mobile-specific fixes
             if (window.innerWidth <= 768) {
@@ -895,6 +935,8 @@
                 
                 // Adjust board size on orientation change
                 window.addEventListener('orientationchange', function() {
+                    // Reset initial board size for new orientation
+                    initialBoardSize = null;
                     setTimeout(function() {
                         initBoard();
                     }, 500);
