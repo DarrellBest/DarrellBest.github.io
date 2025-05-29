@@ -14,3 +14,23 @@
 @import url('./utilities.css');
 @import url('./responsive.css');
 @import url('./blog.css');
+
+/* Chess Easter Egg */
+.chess-easter-egg {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  opacity: 0.3;
+  transition: all 0.3s ease;
+  color: var(--foreground-tertiary);
+}
+
+.chess-easter-egg:hover {
+  opacity: 1;
+  color: var(--accent);
+  transform: scale(1.1);
+}
+
+footer {
+  position: relative;
+}
