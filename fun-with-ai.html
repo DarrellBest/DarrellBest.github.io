@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Chess Game with AI</title>
     <style>
         :root {
@@ -273,6 +273,136 @@
         .highlight-black {
             box-shadow: inset 0 0 3px 3px var(--accent) !important;
         }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                touch-action: pan-y; /* Allow vertical scrolling but prevent horizontal */
+            }
+
+            .game-container {
+                padding: 15px;
+                max-width: 100%;
+                margin: 0 auto;
+                position: relative;
+                overflow-x: hidden;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+
+            .home-button {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 12px;
+                z-index: 100;
+            }
+
+            /* Make board responsive */
+            #board {
+                margin: 15px auto;
+                touch-action: none; /* Prevent scrolling when dragging pieces */
+                position: relative;
+                /* Board size will be set by JavaScript */
+            }
+
+            .status {
+                font-size: 16px;
+                margin: 10px 0;
+            }
+
+            .difficulty-selector {
+                margin: 10px 0;
+            }
+
+            .difficulty-selector label {
+                font-size: 14px;
+            }
+
+            select {
+                font-size: 14px;
+                padding: 8px 15px;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 10px 15px;
+                margin: 3px;
+            }
+
+            .controls {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                margin: 15px 0;
+            }
+
+            .fen-display {
+                font-size: 12px;
+                padding: 15px 10px 10px 10px;
+                margin: 10px 0;
+            }
+
+            .fen-display::before {
+                font-size: 10px;
+                top: 5px;
+                right: 10px;
+            }
+
+            #fenString {
+                margin-top: 5px;
+                word-break: break-all;
+            }
+
+            .evaluation {
+                font-size: 12px;
+                margin: 8px 0;
+            }
+
+            .move-history {
+                max-height: 150px;
+                font-size: 12px;
+                padding: 10px;
+                margin-top: 15px;
+            }
+
+            /* Remove any fixed sizing for board internals */
+            .board-b72b1 {
+                /* Let ChessboardJS handle sizing */
+            }
+
+            /* Prevent page scroll when touching board */
+            #board * {
+                touch-action: none;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 380px) {
+            #board {
+                width: calc(100vw - 30px) !important;
+                height: calc(100vw - 30px) !important;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            button {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+        }
     </style>
     
     <!-- Include required CSS -->
@@ -403,18 +533,52 @@
         let playerColor = 'white';
         let aiThinking = false;
 
-        // Board configuration
-        const config = {
-            draggable: true,
-            position: 'start',
-            onDragStart: onDragStart,
-            onDrop: onDrop,
-            onSnapEnd: onSnapEnd,
-            pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
-        };
+        // Function to get board size based on screen width
+        function getBoardSize() {
+            if (window.innerWidth <= 768) {
+                // Mobile: calculate size based on viewport width
+                const containerPadding = 30; // game-container padding
+                const extraPadding = 10; // extra margin
+                const maxSize = Math.min(
+                    window.innerWidth - containerPadding - extraPadding,
+                    window.innerHeight - 400, // Leave room for UI elements
+                    400 // Maximum mobile size
+                );
+                return maxSize;
+            }
+            return 560; // Desktop size
+        }
 
         // Initialize board
-        board = Chessboard('board', config);
+        function initBoard() {
+            const boardSize = getBoardSize();
+            
+            // Board configuration
+            const config = {
+                draggable: true,
+                position: game.fen(),
+                onDragStart: onDragStart,
+                onDrop: onDrop,
+                onSnapEnd: onSnapEnd,
+                pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
+            };
+
+            // Set board container size
+            $('#board').css({
+                'width': boardSize + 'px',
+                'height': boardSize + 'px'
+            });
+
+            // Create or recreate board
+            if (board) {
+                board = Chessboard('board', config);
+            } else {
+                board = Chessboard('board', config);
+            }
+        }
+
+        // Initialize board
+        initBoard();
 
         // Copy FEN to clipboard
         function copyFEN() {
@@ -706,9 +870,46 @@
             updateBoard();
         }
 
+        // Handle window resize for all devices
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                initBoard();
+            }, 250);
+        });
+
         // Initialize
         $(document).ready(function() {
             updateBoard();
+            
+            // Mobile-specific fixes
+            if (window.innerWidth <= 768) {
+                // Prevent default touch behavior on the board to avoid scrolling
+                const boardElement = document.getElementById('board');
+                boardElement.addEventListener('touchstart', function(e) {
+                    if (e.target.closest('.piece-417db')) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                
+                // Adjust board size on orientation change
+                window.addEventListener('orientationchange', function() {
+                    setTimeout(function() {
+                        initBoard();
+                    }, 500);
+                });
+                
+                // Prevent zooming on double tap
+                let lastTouchEnd = 0;
+                document.addEventListener('touchend', function(e) {
+                    const now = (new Date()).getTime();
+                    if (now - lastTouchEnd <= 300) {
+                        e.preventDefault();
+                    }
+                    lastTouchEnd = now;
+                }, false);
+            }
         });
     </script>
 </body>
