@@ -847,46 +847,38 @@
                 const difficulty = parseInt($('#difficulty').val());
                 
                 // Map difficulty to Stockfish parameters
-                let skillLevel, searchTime, errorRate;
+                let skillLevel, searchTime;
                 
                 switch(difficulty) {
                     case 1: // Beginner
                         skillLevel = 1;
-                        searchTime = 100;
-                        errorRate = 900; // High error rate for beginners
+                        searchTime = 50;
                         break;
                     case 2: // Casual
                         skillLevel = 5;
-                        searchTime = 300;
-                        errorRate = 600;
+                        searchTime = 100;
                         break;
                     case 3: // Intermediate
                         skillLevel = 10;
-                        searchTime = 500;
-                        errorRate = 300;
+                        searchTime = 200;
                         break;
                     case 4: // Advanced
                         skillLevel = 15;
-                        searchTime = 1000;
-                        errorRate = 100;
+                        searchTime = 500;
                         break;
                     case 5: // Expert
                         skillLevel = 20;
-                        searchTime = 2000;
-                        errorRate = 10;
+                        searchTime = 1000;
                         break;
                     default: // Default to casual
                         skillLevel = 5;
-                        searchTime = 300;
-                        errorRate = 600;
+                        searchTime = 100;
                         break;
                 }
                 
                 // Configure Stockfish for this move
                 console.log('Configuring Stockfish: Skill=' + skillLevel + ', Time=' + searchTime + 'ms');
                 stockfish.postMessage('setoption name Skill Level value ' + skillLevel);
-                stockfish.postMessage('setoption name Skill Level Maximum Error value ' + errorRate);
-                stockfish.postMessage('setoption name Skill Level Probability value 128');
                 stockfish.postMessage('position fen ' + fen);
                 console.log('Sending go command: go movetime ' + searchTime);
                 stockfish.postMessage('go movetime ' + searchTime);
