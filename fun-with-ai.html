@@ -891,19 +891,26 @@
                     console.log('Setting position: ' + fen);
                     stockfish.postMessage('position fen ' + fen);
                     
-                    // Try simple go command with nodes limit
-                    const nodeLimit = 1000 * difficulty; // 1000-5000 nodes
-                    console.log('Sending go command: go nodes ' + nodeLimit);
-                    stockfish.postMessage('go nodes ' + nodeLimit);
+                    // Use movetime with backup stop command (workaround for Multi-Variant version)
+                    console.log('Sending go command: go movetime ' + searchTime);
+                    stockfish.postMessage('go movetime ' + searchTime);
                     
-                    // Safety timeout - if no response in 10 seconds, something is wrong
+                    // Send stop command after timeout to force Multi-Variant to respond
                     setTimeout(() => {
                         if (aiThinking) {
-                            console.log('Stockfish completely unresponsive - reloading page recommended');
+                            console.log('Sending stop command to force response');
+                            stockfish.postMessage('stop');
+                        }
+                    }, searchTime + 50); // Small buffer after movetime
+                    
+                    // Final safety timeout
+                    setTimeout(() => {
+                        if (aiThinking) {
+                            console.log('Stockfish still unresponsive after stop command');
                             aiThinking = false;
                             $('#status').html('AI Error - Please refresh page').addClass('error');
                         }
-                    }, 10000);
+                    }, searchTime + 2000);
                 }, 100);
             } else {
                 // Stockfish not available
