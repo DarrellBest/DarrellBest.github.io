@@ -888,8 +888,20 @@
                 
                 // Wait for readyok before sending position and go command
                 setTimeout(() => {
-                    console.log('Setting position: ' + fen);
-                    stockfish.postMessage('position fen ' + fen);
+                    // Send position with move history
+                    const moves = game.history({ verbose: false });
+                    let positionCmd;
+                    
+                    if (moves.length === 0) {
+                        // Starting position
+                        positionCmd = 'position startpos';
+                    } else {
+                        // Starting position with moves
+                        positionCmd = 'position startpos moves ' + moves.join(' ');
+                    }
+                    
+                    console.log('Setting position: ' + positionCmd);
+                    stockfish.postMessage(positionCmd);
                     
                     // Use movetime with backup stop command (workaround for Multi-Variant version)
                     console.log('Sending go command: go movetime ' + searchTime);
