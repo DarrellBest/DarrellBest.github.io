@@ -481,13 +481,16 @@
                 
                 stockfish.addEventListener('message', function(e) {
                     const message = e.data;
+                    console.log('Stockfish message:', message);
                     
                     // Parse Stockfish output for best move
                     if (typeof message === 'string' && message.startsWith('bestmove')) {
+                        console.log('Received bestmove:', message);
                         const parts = message.split(' ');
                         const bestMove = parts[1];
                         
                         if (bestMove && bestMove !== '(none)') {
+                            console.log('Making move:', bestMove);
                             // Convert UCI move to chess.js format
                             const from = bestMove.substring(0, 2);
                             const to = bestMove.substring(2, 4);
@@ -880,10 +883,12 @@
                 }
                 
                 // Configure Stockfish for this move
+                console.log('Configuring Stockfish: Skill=' + skillLevel + ', Time=' + searchTime + 'ms');
                 stockfish.postMessage('setoption name Skill Level value ' + skillLevel);
                 stockfish.postMessage('setoption name Skill Level Maximum Error value ' + errorRate);
                 stockfish.postMessage('setoption name Skill Level Probability value 128');
                 stockfish.postMessage('position fen ' + fen);
+                console.log('Sending go command: go movetime ' + searchTime);
                 stockfish.postMessage('go movetime ' + searchTime);
             } else {
                 // Fallback to simple AI
