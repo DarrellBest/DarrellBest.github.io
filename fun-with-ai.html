@@ -460,9 +460,67 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <!-- Stockfish.js for strong chess AI -->
+    <script src="https://unpkg.com/stockfish.js@10.0.2/stockfishjs.js"></script>
     
     <script>
-        // Simple chess AI implementation
+        // Global variables
+        let board = null;
+        let game = new Chess();
+        let playerColor = 'white';
+        let aiThinking = false;
+        let initialBoardSize = null;
+        let stockfish = null;
+        let useStockfish = true; // Flag to use Stockfish or fallback AI
+        let positionHistory = []; // Track recent positions to avoid repetition
+        
+        // Initialize Stockfish
+        function initStockfish() {
+            try {
+                stockfish = new Worker('https://unpkg.com/stockfish.js@10.0.2/stockfishjs.js');
+                
+                stockfish.addEventListener('message', function(e) {
+                    const message = e.data;
+                    
+                    // Parse Stockfish output for best move
+                    if (message.startsWith('bestmove')) {
+                        const parts = message.split(' ');
+                        const bestMove = parts[1];
+                        
+                        if (bestMove && bestMove !== '(none)') {
+                            // Convert UCI move to chess.js format
+                            const from = bestMove.substring(0, 2);
+                            const to = bestMove.substring(2, 4);
+                            const promotion = bestMove.length > 4 ? bestMove[4] : undefined;
+                            
+                            const move = game.move({
+                                from: from,
+                                to: to,
+                                promotion: promotion
+                            });
+                            
+                            if (move) {
+                                updateBoard();
+                            }
+                        }
+                        aiThinking = false;
+                    }
+                });
+                
+                // Initialize Stockfish
+                stockfish.postMessage('uci');
+                stockfish.postMessage('setoption name Threads value 1');
+                stockfish.postMessage('setoption name Hash value 16');
+                stockfish.postMessage('ucinewgame');
+                
+                console.log('Stockfish initialized successfully');
+            } catch (error) {
+                console.error('Failed to initialize Stockfish:', error);
+                useStockfish = false;
+            }
+        }
+        
+        // Fallback simple AI implementation
         const PIECE_VALUES = {
             'p': -100, 'n': -320, 'b': -330, 'r': -500, 'q': -900, 'k': -20000,
             'P': 100, 'N': 320, 'B': 330, 'R': 500, 'Q': 900, 'K': 20000
@@ -530,13 +588,6 @@
                 [20, 30, 10,  0,  0, 10, 30, 20]
             ]
         };
-
-        // Global variables
-        let board = null;
-        let game = new Chess();
-        let playerColor = 'white';
-        let aiThinking = false;
-        let initialBoardSize = null; // Store initial board size
 
         // Function to get board size based on screen width
         function getBoardSize() {
@@ -739,11 +790,24 @@
             let bestMove = null;
             const isBlackTurn = game.turn() === 'b';
             let bestValue = isBlackTurn ? -Infinity : Infinity;
+            
+            // Randomize move order slightly to avoid predictability
+            const shuffledMoves = moves.sort(() => Math.random() - 0.5);
 
-            for (let move of moves) {
+            for (let move of shuffledMoves) {
                 game.move(move);
+                const fen = game.fen().split(' ')[0]; // Get just the position part of FEN
+                
+                // Penalize positions we've seen recently
+                let positionPenalty = 0;
+                if (positionHistory.includes(fen)) {
+                    positionPenalty = isBlackTurn ? -300 : 300; // Significant penalty for repetition
+                }
+                
                 // After making a move, the turn switches, so we need to invert the maximizing player
-                const boardValue = minimax(game, depth - 1, -Infinity, Infinity, !isBlackTurn);
+                let boardValue = minimax(game, depth - 1, -Infinity, Infinity, !isBlackTurn);
+                boardValue += positionPenalty;
+                
                 game.undo();
 
                 if (isBlackTurn) {
@@ -771,14 +835,32 @@
             aiThinking = true;
             $('#status').html('AI is thinking...').addClass('thinking');
             
-            setTimeout(() => {
-                const move = getBestMove();
-                if (move) {
-                    game.move(move);
-                    updateBoard();
-                }
-                aiThinking = false;
-            }, 100);
+            if (useStockfish && stockfish) {
+                // Use Stockfish engine
+                const fen = game.fen();
+                const difficulty = parseInt($('#difficulty').val());
+                
+                // Map difficulty to Stockfish skill level (0-20)
+                const skillLevel = difficulty * 5; // 1->5, 2->10, 3->15, 4->20
+                
+                // Configure Stockfish for this move
+                stockfish.postMessage('position fen ' + fen);
+                stockfish.postMessage('setoption name Skill Level value ' + skillLevel);
+                
+                // Calculate search time based on difficulty (ms)
+                const searchTime = difficulty * 500; // 500ms to 2000ms
+                stockfish.postMessage('go movetime ' + searchTime);
+            } else {
+                // Fallback to simple AI
+                setTimeout(() => {
+                    const move = getBestMove();
+                    if (move) {
+                        game.move(move);
+                        updateBoard();
+                    }
+                    aiThinking = false;
+                }, 100);
+            }
         }
 
         // Piece dragging
@@ -831,6 +913,13 @@
             $('#fenString').text(game.fen());
             $('#evaluation').text('Evaluation: ' + (evaluateBoard(boardTo2D(game)) / 100).toFixed(2));
             $('#undoBtn').prop('disabled', game.history().length === 0);
+            
+            // Track position history (keep last 10 positions)
+            const currentPosition = game.fen().split(' ')[0];
+            positionHistory.push(currentPosition);
+            if (positionHistory.length > 10) {
+                positionHistory.shift();
+            }
         }
 
         // Update status
@@ -884,6 +973,13 @@
             game.reset();
             board.start();
             aiThinking = false;
+            positionHistory = []; // Clear position history
+            
+            // Reset Stockfish for new game
+            if (useStockfish && stockfish) {
+                stockfish.postMessage('ucinewgame');
+            }
+            
             updateBoard();
             
             if (playerColor === 'black') {
@@ -948,6 +1044,9 @@
 
         // Initialize
         $(document).ready(function() {
+            // Initialize Stockfish
+            initStockfish();
+            
             // Wait a bit for viewport to stabilize on mobile
             if (window.innerWidth <= 768) {
                 setTimeout(function() {
