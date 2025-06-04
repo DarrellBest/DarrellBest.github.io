@@ -442,18 +442,17 @@
 
         <div id="board"></div>
 
-        <div class="evaluation" id="evaluation">Evaluation: 0.00</div>
+        <div class="evaluation" id="engineStatus">Engine: Loading...</div>
 
         <div class="controls">
             <button onclick="newGame()">New Game</button>
-            <button id="undoBtn" onclick="undoMove()" disabled>Undo Move</button>
-            <button onclick="board.flip()">Flip Board</button>
+            <button onclick="gameInstance && gameInstance.board && gameInstance.board.flip()">Flip Board</button>
             <button id="playAsBtn" onclick="switchSides()">Play as Black</button>
         </div>
 
         <div class="move-history">
             <strong>Move History:</strong>
-            <div id="moveList"></div>
+            <div id="pgn"></div>
         </div>
     </div>
 
@@ -461,693 +460,141 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <script src="js/enginegame.js"></script>
     
     <script>
-        // Global variables
-        let board = null;
-        let game = new Chess();
-        let playerColor = 'white';
-        let aiThinking = false;
+        // Global variables using enginegame.js pattern
+        let gameInstance = null;
         let initialBoardSize = null;
-        let stockfish = null;
-        let useStockfish = true; // Flag to use Stockfish or fallback AI
-        let positionHistory = []; // Track recent positions to avoid repetition
         
-        // Initialize Stockfish
-        function initStockfish() {
-            try {
-                // Load Stockfish from local files
-                stockfish = new Worker('js/stockfish.js');
-                
-                stockfish.addEventListener('message', function(e) {
-                    const message = e.data;
-                    console.log('Stockfish message:', message);
-                    
-                    // Parse Stockfish output for best move
-                    if (typeof message === 'string' && message.startsWith('bestmove')) {
-                        console.log('Received bestmove:', message);
-                        const parts = message.split(' ');
-                        const bestMove = parts[1];
-                        
-                        if (bestMove && bestMove !== '(none)') {
-                            console.log('Making move:', bestMove);
-                            // Convert UCI move to chess.js format
-                            const from = bestMove.substring(0, 2);
-                            const to = bestMove.substring(2, 4);
-                            const promotion = bestMove.length > 4 ? bestMove[4] : undefined;
-                            
-                            const move = game.move({
-                                from: from,
-                                to: to,
-                                promotion: promotion
-                            });
-                            
-                            if (move) {
-                                updateBoard();
-                            }
-                        }
-                        aiThinking = false;
-                    }
-                    
-                    // Handle readyok response
-                    if (typeof message === 'string' && message.trim() === 'readyok') {
-                        console.log('Stockfish is ready');
-                    }
-                });
-                
-                // Initialize Stockfish
-                stockfish.postMessage('uci');
-                setTimeout(() => {
-                    stockfish.postMessage('setoption name Threads value 1');
-                    stockfish.postMessage('setoption name Hash value 16');
-                    stockfish.postMessage('ucinewgame');
-                }, 100);
-                
-                console.log('Stockfish initialized successfully');
-            } catch (error) {
-                console.error('Failed to initialize Stockfish:', error);
-                console.log('Falling back to built-in AI');
-                useStockfish = false;
-            }
-        }
-        
-        // Fallback simple AI implementation
-        const PIECE_VALUES = {
-            'p': -100, 'n': -320, 'b': -330, 'r': -500, 'q': -900, 'k': -20000,
-            'P': 100, 'N': 320, 'B': 330, 'R': 500, 'Q': 900, 'K': 20000
-        };
-
-        const POSITION_VALUES = {
-            'p': [
-                [0,  0,  0,  0,  0,  0,  0,  0],
-                [50, 50, 50, 50, 50, 50, 50, 50],
-                [10, 10, 20, 30, 30, 20, 10, 10],
-                [5,  5, 10, 25, 25, 10,  5,  5],
-                [0,  0,  0, 20, 20,  0,  0,  0],
-                [5, -5,-10,  0,  0,-10, -5,  5],
-                [5, 10, 10,-20,-20, 10, 10,  5],
-                [0,  0,  0,  0,  0,  0,  0,  0]
-            ],
-            'n': [
-                [-50,-40,-30,-30,-30,-30,-40,-50],
-                [-40,-20,  0,  0,  0,  0,-20,-40],
-                [-30,  0, 10, 15, 15, 10,  0,-30],
-                [-30,  5, 15, 20, 20, 15,  5,-30],
-                [-30,  0, 15, 20, 20, 15,  0,-30],
-                [-30,  5, 10, 15, 15, 10,  5,-30],
-                [-40,-20,  0,  5,  5,  0,-20,-40],
-                [-50,-40,-30,-30,-30,-30,-40,-50]
-            ],
-            'b': [
-                [-20,-10,-10,-10,-10,-10,-10,-20],
-                [-10,  0,  0,  0,  0,  0,  0,-10],
-                [-10,  0,  5, 10, 10,  5,  0,-10],
-                [-10,  5,  5, 10, 10,  5,  5,-10],
-                [-10,  0, 10, 10, 10, 10,  0,-10],
-                [-10, 10, 10, 10, 10, 10, 10,-10],
-                [-10,  5,  0,  0,  0,  0,  5,-10],
-                [-20,-10,-10,-10,-10,-10,-10,-20]
-            ],
-            'r': [
-                [0,  0,  0,  0,  0,  0,  0,  0],
-                [5, 10, 10, 10, 10, 10, 10,  5],
-                [-5,  0,  0,  0,  0,  0,  0, -5],
-                [-5,  0,  0,  0,  0,  0,  0, -5],
-                [-5,  0,  0,  0,  0,  0,  0, -5],
-                [-5,  0,  0,  0,  0,  0,  0, -5],
-                [-5,  0,  0,  0,  0,  0,  0, -5],
-                [0,  0,  0,  5,  5,  0,  0,  0]
-            ],
-            'q': [
-                [-20,-10,-10, -5, -5,-10,-10,-20],
-                [-10,  0,  0,  0,  0,  0,  0,-10],
-                [-10,  0,  5,  5,  5,  5,  0,-10],
-                [-5,  0,  5,  5,  5,  5,  0, -5],
-                [0,  0,  5,  5,  5,  5,  0, -5],
-                [-10,  5,  5,  5,  5,  5,  0,-10],
-                [-10,  0,  5,  0,  0,  0,  0,-10],
-                [-20,-10,-10, -5, -5,-10,-10,-20]
-            ],
-            'k': [
-                [-30,-40,-40,-50,-50,-40,-40,-30],
-                [-30,-40,-40,-50,-50,-40,-40,-30],
-                [-30,-40,-40,-50,-50,-40,-40,-30],
-                [-30,-40,-40,-50,-50,-40,-40,-30],
-                [-20,-30,-30,-40,-40,-30,-30,-20],
-                [-10,-20,-20,-20,-20,-20,-20,-10],
-                [20, 20,  0,  0,  0,  0, 20, 20],
-                [20, 30, 10,  0,  0, 10, 30, 20]
-            ]
-        };
-
         // Function to get board size based on screen width
         function getBoardSize() {
-            // If we already have an initial board size on mobile, use it
             if (initialBoardSize && window.innerWidth <= 768) {
                 return initialBoardSize;
             }
             
             if (window.innerWidth <= 768) {
-                // Mobile: calculate size based on viewport width
-                const containerPadding = 30; // game-container padding
-                const extraPadding = 10; // extra margin
-                // Use document.documentElement.clientWidth for more stable measurement
+                const containerPadding = 30;
+                const extraPadding = 10;
                 const viewportWidth = document.documentElement.clientWidth;
                 const maxSize = Math.min(
                     viewportWidth - containerPadding - extraPadding,
-                    window.innerHeight - 400, // Leave room for UI elements
-                    400 // Maximum mobile size
+                    window.innerHeight - 400,
+                    400
                 );
                 
-                // Store the initial size on mobile
                 if (!initialBoardSize) {
                     initialBoardSize = maxSize;
                 }
                 
                 return maxSize;
             }
-            return 560; // Desktop size
+            return 560;
         }
-
-        // Initialize board
-        function initBoard() {
-            const boardSize = getBoardSize();
-            
-            // Board configuration
-            const config = {
-                draggable: true,
-                position: game.fen(),
-                onDragStart: onDragStart,
-                onDrop: onDrop,
-                onSnapEnd: onSnapEnd,
-                pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
+        
+        // New game function
+        function newGame() {
+            if (gameInstance) {
+                const difficulty = parseInt($('#difficulty').val());
+                const playerColor = $('#playAsBtn').text().includes('Black') ? 'white' : 'black';
+                
+                gameInstance.reset();
+                gameInstance.setSkillLevel(difficulty * 4); // Map 1-5 to 4-20
+                gameInstance.setPlayerColor(playerColor);
+                gameInstance.setDisplayScore(true);
+                gameInstance.start();
+                
+                // Update button text
+                $('#playAsBtn').text(playerColor === 'white' ? 'Play as Black' : 'Play as White');
+            }
+        }
+        
+        // Switch sides function
+        function switchSides() {
+            newGame();
+        }
+        
+        // Initialize the game using enginegame.js
+        function initGame() {
+            const options = {
+                stockfishjs: 'js/stockfish.js'
             };
-
-            // Set board container size
+            
+            gameInstance = engineGame(options);
+            
+            // Override the board size in enginegame
+            const boardSize = getBoardSize();
             $('#board').css({
                 'width': boardSize + 'px',
                 'height': boardSize + 'px'
             });
-
-            // Create or recreate board
-            if (board) {
-                board = Chessboard('board', config);
-            } else {
-                board = Chessboard('board', config);
-            }
-        }
-
-        // Don't initialize board immediately - wait for DOM ready
-
-        // Copy FEN to clipboard
-        function copyFEN() {
-            const fenText = game.fen();
-            navigator.clipboard.writeText(fenText).then(() => {
-                $('#fenDisplay').addClass('copied');
-                setTimeout(() => $('#fenDisplay').removeClass('copied'), 2000);
-            }).catch(() => {
-                const textArea = document.createElement('textarea');
-                textArea.value = fenText;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                $('#fenDisplay').addClass('copied');
-                setTimeout(() => $('#fenDisplay').removeClass('copied'), 2000);
+            
+            // Set up event listeners
+            document.getElementById("difficulty").addEventListener("change", function() {
+                if (gameInstance) {
+                    const skillLevel = parseInt(this.value) * 4; // Map 1-5 to 4-20
+                    gameInstance.setSkillLevel(skillLevel);
+                }
             });
-        }
-
-        // Evaluate board position (positive = good for black, negative = good for white)
-        function evaluateBoard(board) {
-            let totalEvaluation = 0;
             
-            for (let i = 0; i < 8; i++) {
-                for (let j = 0; j < 8; j++) {
-                    const piece = board[i][j];
-                    if (piece) {
-                        const isWhite = piece === piece.toUpperCase();
-                        const pieceType = piece.toLowerCase();
-                        // For white pieces, use row as-is (0 = back rank)
-                        // For black pieces, flip the row (7 = back rank)
-                        const row = isWhite ? 7 - i : i;
-                        
-                        totalEvaluation += PIECE_VALUES[piece];
-                        
-                        if (POSITION_VALUES[pieceType]) {
-                            const positionValue = POSITION_VALUES[pieceType][row][j];
-                            // Add position value (positive for black, negative for white)
-                            totalEvaluation += isWhite ? -positionValue : positionValue;
-                        }
-                    }
-                }
-            }
-            
-            return totalEvaluation;
-        }
-
-        // Convert chess.js board to 2D array
-        function boardTo2D(chess) {
-            const board = [];
-            // Get the board directly from chess.js
-            const chessBoard = chess.board();
-            
-            for (let i = 0; i < 8; i++) {
-                const row = [];
-                for (let j = 0; j < 8; j++) {
-                    const square = chessBoard[i][j];
-                    if (square) {
-                        // Convert to our format: white pieces uppercase, black lowercase
-                        const piece = square.color === 'w' ? 
-                            square.type.toUpperCase() : 
-                            square.type.toLowerCase();
-                        row.push(piece);
-                    } else {
-                        row.push(null);
-                    }
-                }
-                board.push(row);
-            }
-            
-            return board;
-        }
-
-        // Order moves for better alpha-beta pruning (captures first, then center moves)
-        function orderMoves(moves, chess) {
-            return moves.sort((a, b) => {
-                const moveA = { from: a.slice(0, 2), to: a.slice(-2) };
-                const moveB = { from: b.slice(0, 2), to: b.slice(-2) };
-                
-                // Prioritize captures
-                const captureA = chess.get(moveA.to) !== null;
-                const captureB = chess.get(moveB.to) !== null;
-                
-                if (captureA && !captureB) return -1;
-                if (!captureA && captureB) return 1;
-                
-                // Prioritize center squares
-                const centerSquares = ['e4', 'e5', 'd4', 'd5'];
-                const centerA = centerSquares.includes(moveA.to);
-                const centerB = centerSquares.includes(moveB.to);
-                
-                if (centerA && !centerB) return -1;
-                if (!centerA && centerB) return 1;
-                
-                return 0;
-            });
-        }
-
-        // Minimax with alpha-beta pruning
-        function minimax(chess, depth, alpha, beta, isMaximizingPlayer) {
-            if (depth === 0 || chess.game_over()) {
-                return evaluateBoard(boardTo2D(chess));
-            }
-
-            let moves = chess.moves();
-            
-            // Basic move ordering for better pruning
-            if (depth > 1) {
-                moves = orderMoves(moves, chess);
-            }
-            
-            if (isMaximizingPlayer) {
-                let maxEval = -Infinity;
-                for (let move of moves) {
-                    chess.move(move);
-                    const eval = minimax(chess, depth - 1, alpha, beta, false);
-                    chess.undo();
-                    maxEval = Math.max(maxEval, eval);
-                    alpha = Math.max(alpha, eval);
-                    if (beta <= alpha) break;
-                }
-                return maxEval;
-            } else {
-                let minEval = Infinity;
-                for (let move of moves) {
-                    chess.move(move);
-                    const eval = minimax(chess, depth - 1, alpha, beta, true);
-                    chess.undo();
-                    minEval = Math.min(minEval, eval);
-                    beta = Math.min(beta, eval);
-                    if (beta <= alpha) break;
-                }
-                return minEval;
-            }
-        }
-
-        // Get best move for AI
-        function getBestMove() {
-            const depth = parseInt($('#difficulty').val());
-            const moves = game.moves();
-            let bestMove = null;
-            const isBlackTurn = game.turn() === 'b';
-            let bestValue = isBlackTurn ? -Infinity : Infinity;
-            
-            // Randomize move order slightly to avoid predictability
-            const shuffledMoves = moves.sort(() => Math.random() - 0.5);
-
-            for (let move of shuffledMoves) {
-                game.move(move);
-                const fen = game.fen().split(' ')[0]; // Get just the position part of FEN
-                
-                // Penalize positions we've seen recently
-                let positionPenalty = 0;
-                if (positionHistory.includes(fen)) {
-                    positionPenalty = isBlackTurn ? -300 : 300; // Significant penalty for repetition
-                }
-                
-                // After making a move, the turn switches, so we need to invert the maximizing player
-                let boardValue = minimax(game, depth - 1, -Infinity, Infinity, !isBlackTurn);
-                boardValue += positionPenalty;
-                
-                game.undo();
-
-                if (isBlackTurn) {
-                    // Black wants to maximize (more positive values)
-                    if (boardValue > bestValue) {
-                        bestValue = boardValue;
-                        bestMove = move;
-                    }
-                } else {
-                    // White wants to minimize (more negative values)
-                    if (boardValue < bestValue) {
-                        bestValue = boardValue;
-                        bestMove = move;
-                    }
-                }
-            }
-
-            return bestMove || moves[Math.floor(Math.random() * moves.length)];
-        }
-
-        // Make AI move
-        function makeAIMove() {
-            if (game.game_over() || aiThinking) return;
-            
-            aiThinking = true;
-            $('#status').html('AI is thinking...').addClass('thinking');
-            
-            if (useStockfish && stockfish) {
-                // Use Stockfish engine
-                const fen = game.fen();
-                const difficulty = parseInt($('#difficulty').val());
-                
-                // Map difficulty to Stockfish parameters
-                let skillLevel, searchTime;
-                
-                switch(difficulty) {
-                    case 1: // Beginner
-                        skillLevel = 1;
-                        searchTime = 50;
-                        break;
-                    case 2: // Casual
-                        skillLevel = 5;
-                        searchTime = 100;
-                        break;
-                    case 3: // Intermediate
-                        skillLevel = 10;
-                        searchTime = 200;
-                        break;
-                    case 4: // Advanced
-                        skillLevel = 15;
-                        searchTime = 500;
-                        break;
-                    case 5: // Expert
-                        skillLevel = 20;
-                        searchTime = 1000;
-                        break;
-                    default: // Default to casual
-                        skillLevel = 5;
-                        searchTime = 100;
-                        break;
-                }
-                
-                // Configure Stockfish for this move
-                console.log('Configuring Stockfish: Skill=' + skillLevel + ', Time=' + searchTime + 'ms');
-                stockfish.postMessage('setoption name Skill Level value ' + skillLevel);
-                stockfish.postMessage('isready');
-                
-                // Wait for readyok before sending position and go command
-                setTimeout(() => {
-                    // Send position with move history
-                    const moves = game.history({ verbose: false });
-                    let positionCmd;
-                    
-                    if (moves.length === 0) {
-                        // Starting position
-                        positionCmd = 'position startpos';
-                    } else {
-                        // Starting position with moves
-                        positionCmd = 'position startpos moves ' + moves.join(' ');
-                    }
-                    
-                    console.log('Setting position: ' + positionCmd);
-                    stockfish.postMessage(positionCmd);
-                    
-                    // Use movetime with backup stop command (workaround for Multi-Variant version)
-                    console.log('Sending go command: go movetime ' + searchTime);
-                    stockfish.postMessage('go movetime ' + searchTime);
-                    
-                    // Send stop command after timeout to force Multi-Variant to respond
-                    setTimeout(() => {
-                        if (aiThinking) {
-                            console.log('Sending stop command to force response');
-                            stockfish.postMessage('stop');
-                        }
-                    }, searchTime + 50); // Small buffer after movetime
-                    
-                    // Final safety timeout
-                    setTimeout(() => {
-                        if (aiThinking) {
-                            console.log('Stockfish still unresponsive after stop command');
-                            aiThinking = false;
-                            $('#status').html('AI Error - Please refresh page').addClass('error');
-                        }
-                    }, searchTime + 2000);
-                }, 100);
-            } else {
-                // Stockfish not available
-                aiThinking = false;
-                $('#status').html('Stockfish not loaded - Please refresh page').addClass('error');
-            }
-        }
-
-        // Piece dragging
-        function onDragStart(source, piece, position, orientation) {
-            // Don't allow moves if game is over
-            if (game.game_over()) return false;
-            
-            // Don't allow moves while AI is thinking
-            if (aiThinking) return false;
-            
-            // Only allow player to move their own pieces
-            const isWhitePiece = piece.search(/^w/) !== -1;
-            const isBlackPiece = piece.search(/^b/) !== -1;
-            
-            if (playerColor === 'white' && isBlackPiece) return false;
-            if (playerColor === 'black' && isWhitePiece) return false;
-            
-            // Only allow moves when it's the player's turn
-            const isPlayerTurn = (playerColor === 'white' && game.turn() === 'w') ||
-                                (playerColor === 'black' && game.turn() === 'b');
-            
-            return isPlayerTurn;
-        }
-
-        function onDrop(source, target) {
-            const move = game.move({
-                from: source,
-                to: target,
-                promotion: 'q'
-            });
-
-            if (move === null) return 'snapback';
-
-            updateBoard();
-            
-            if (!game.game_over()) {
-                window.setTimeout(makeAIMove, 250);
-            }
-        }
-
-        function onSnapEnd() {
-            board.position(game.fen());
-        }
-
-        // Update board
-        function updateBoard() {
-            board.position(game.fen());
-            updateStatus();
-            updateMoveHistory();
-            $('#fenString').text(game.fen());
-            const evalText = useStockfish && stockfish ? 
-                'Engine: Stockfish ' + $('#difficulty option:selected').text() : 
-                'Evaluation: ' + (evaluateBoard(boardTo2D(game)) / 100).toFixed(2);
-            $('#evaluation').text(evalText);
-            $('#undoBtn').prop('disabled', game.history().length === 0);
-            
-            // Track position history (keep last 10 positions)
-            const currentPosition = game.fen().split(' ')[0];
-            positionHistory.push(currentPosition);
-            if (positionHistory.length > 10) {
-                positionHistory.shift();
-            }
-        }
-
-        // Update status
-        function updateStatus(message) {
-            const $status = $('#status');
-            
-            if (message) {
-                $status.html(message);
-                return;
-            }
-
-            let status = '';
-            let moveColor = game.turn() === 'w' ? 'White' : 'Black';
-
-            if (game.in_checkmate()) {
-                status = 'Game over, ' + moveColor + ' is in checkmate.';
-                $status.removeClass().addClass('status win');
-            } else if (game.in_draw()) {
-                status = 'Game over, drawn position';
-                $status.removeClass().addClass('status draw');
-            } else {
-                status = moveColor + ' to move';
-                $status.removeClass().addClass('status');
-                if (game.in_check()) {
-                    status += ', ' + moveColor + ' is in check';
-                    $status.addClass('check');
-                }
-            }
-
-            $status.html(status);
-        }
-
-        // Update move history
-        function updateMoveHistory() {
-            const history = game.history();
-            let html = '';
-            
-            for (let i = 0; i < history.length; i += 2) {
-                const moveNum = Math.floor(i / 2) + 1;
-                const whiteMove = history[i] || '';
-                const blackMove = history[i + 1] || '';
-                html += `<div>${moveNum}. ${whiteMove} ${blackMove}</div>`;
-            }
-            
-            $('#moveList').html(html);
-            $('#moveList').scrollTop($('#moveList')[0].scrollHeight);
-        }
-
-        // New game
-        function newGame() {
-            game.reset();
-            board.start();
-            aiThinking = false;
-            positionHistory = []; // Clear position history
-            
-            // Reset Stockfish for new game
-            if (useStockfish && stockfish) {
-                stockfish.postMessage('ucinewgame');
-            }
-            
-            updateBoard();
-            
-            if (playerColor === 'black') {
-                setTimeout(makeAIMove, 500);
-            }
-        }
-
-        // Switch sides
-        function switchSides() {
-            playerColor = playerColor === 'white' ? 'black' : 'white';
-            $('#playAsBtn').text(playerColor === 'white' ? 'Play as Black' : 'Play as White');
-            board.flip();
+            // Start initial game
             newGame();
         }
-
-        // Undo move
-        function undoMove() {
-            if (game.history().length === 0) return;
-            
-            // If it's the player's turn, we need to undo 2 moves (AI's last move and player's last move)
-            // If it's the AI's turn, we just undo the player's last move
-            if ((playerColor === 'white' && game.turn() === 'b') || 
-                (playerColor === 'black' && game.turn() === 'w')) {
-                // It's AI's turn, so undo just the player's last move
-                game.undo();
-            } else {
-                // It's player's turn, so undo both AI and player's last moves
-                if (game.history().length >= 2) {
-                    game.undo(); // Undo player's move
-                    game.undo(); // Undo AI's move
-                } else {
-                    game.undo(); // Just undo the single move
-                }
+        
+        // Copy FEN to clipboard
+        function copyFEN() {
+            // Get FEN from the enginegame instance
+            if (gameInstance && gameInstance.game) {
+                const fenText = gameInstance.game.fen();
+                navigator.clipboard.writeText(fenText).then(() => {
+                    $('#fenDisplay').addClass('copied');
+                    setTimeout(() => $('#fenDisplay').removeClass('copied'), 2000);
+                }).catch(() => {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = fenText;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    $('#fenDisplay').addClass('copied');
+                    setTimeout(() => $('#fenDisplay').removeClass('copied'), 2000);
+                });
             }
-            
-            aiThinking = false;
-            updateBoard();
         }
-
-        // Handle window resize - but only for desktop or orientation changes
+        
+        // Handle window resize for mobile
         let resizeTimeout;
         let lastOrientation = window.orientation;
         
         window.addEventListener('resize', function() {
-            // On mobile, only resize on orientation change, not viewport height changes
             if (window.innerWidth <= 768) {
                 const currentOrientation = window.orientation;
                 if (currentOrientation === lastOrientation) {
-                    // Same orientation, likely just address bar hide/show
                     return;
                 }
                 lastOrientation = currentOrientation;
-                // Reset initial board size for new orientation
                 initialBoardSize = null;
             }
             
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(function() {
-                initBoard();
+                if (gameInstance) {
+                    const boardSize = getBoardSize();
+                    $('#board').css({
+                        'width': boardSize + 'px',
+                        'height': boardSize + 'px'
+                    });
+                }
             }, 250);
         });
 
-        // Initialize
+        // Initialize when DOM is ready
         $(document).ready(function() {
-            // Initialize Stockfish
-            initStockfish();
-            
-            // Wait a bit for viewport to stabilize on mobile
-            if (window.innerWidth <= 768) {
-                setTimeout(function() {
-                    initBoard();
-                    updateBoard();
-                }, 100);
-            } else {
-                initBoard();
-                updateBoard();
-            }
+            // Initialize the game
+            initGame();
             
             // Mobile-specific fixes
             if (window.innerWidth <= 768) {
-                // Prevent default touch behavior on the board to avoid scrolling
-                const boardElement = document.getElementById('board');
-                boardElement.addEventListener('touchstart', function(e) {
-                    if (e.target.closest('.piece-417db')) {
-                        e.preventDefault();
-                    }
-                }, { passive: false });
-                
-                // Adjust board size on orientation change
-                window.addEventListener('orientationchange', function() {
-                    // Reset initial board size for new orientation
-                    initialBoardSize = null;
-                    setTimeout(function() {
-                        initBoard();
-                    }, 500);
-                });
-                
                 // Prevent zooming on double tap
                 let lastTouchEnd = 0;
                 document.addEventListener('touchend', function(e) {
