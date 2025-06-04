@@ -879,9 +879,27 @@
                 // Configure Stockfish for this move
                 console.log('Configuring Stockfish: Skill=' + skillLevel + ', Time=' + searchTime + 'ms');
                 stockfish.postMessage('setoption name Skill Level value ' + skillLevel);
-                stockfish.postMessage('position fen ' + fen);
-                console.log('Sending go command: go movetime ' + searchTime);
-                stockfish.postMessage('go movetime ' + searchTime);
+                stockfish.postMessage('isready');
+                
+                // Wait for readyok before sending position and go command
+                setTimeout(() => {
+                    stockfish.postMessage('position fen ' + fen);
+                    console.log('Sending go command: go movetime ' + searchTime);
+                    stockfish.postMessage('go movetime ' + searchTime);
+                    
+                    // Safety timeout - if no response in 3 seconds, fall back to simple AI
+                    setTimeout(() => {
+                        if (aiThinking) {
+                            console.log('Stockfish timeout - falling back to simple AI');
+                            aiThinking = false;
+                            const move = getBestMove();
+                            if (move) {
+                                game.move(move);
+                                updateBoard();
+                            }
+                        }
+                    }, 3000);
+                }, 50);
             } else {
                 // Fallback to simple AI
                 setTimeout(() => {
