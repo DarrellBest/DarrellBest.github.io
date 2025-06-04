@@ -428,10 +428,11 @@
         <div class="difficulty-selector">
             <label for="difficulty">AI Difficulty:</label>
             <select id="difficulty">
-                <option value="1">Easy (Depth 1)</option>
-                <option value="2" selected>Medium (Depth 2)</option>
-                <option value="3">Hard (Depth 3)</option>
-                <option value="4">Expert (Depth 4)</option>
+                <option value="1">Beginner (ELO ~1000)</option>
+                <option value="2" selected>Casual (ELO ~1400)</option>
+                <option value="3">Intermediate (ELO ~1800)</option>
+                <option value="4">Advanced (ELO ~2200)</option>
+                <option value="5">Expert (ELO ~2500)</option>
             </select>
         </div>
 
@@ -842,15 +843,47 @@
                 const fen = game.fen();
                 const difficulty = parseInt($('#difficulty').val());
                 
-                // Map difficulty to Stockfish skill level (0-20)
-                const skillLevel = difficulty * 5; // 1->5, 2->10, 3->15, 4->20
+                // Map difficulty to Stockfish parameters
+                let skillLevel, searchTime, errorRate;
+                
+                switch(difficulty) {
+                    case 1: // Beginner
+                        skillLevel = 1;
+                        searchTime = 100;
+                        errorRate = 900; // High error rate for beginners
+                        break;
+                    case 2: // Casual
+                        skillLevel = 5;
+                        searchTime = 300;
+                        errorRate = 600;
+                        break;
+                    case 3: // Intermediate
+                        skillLevel = 10;
+                        searchTime = 500;
+                        errorRate = 300;
+                        break;
+                    case 4: // Advanced
+                        skillLevel = 15;
+                        searchTime = 1000;
+                        errorRate = 100;
+                        break;
+                    case 5: // Expert
+                        skillLevel = 20;
+                        searchTime = 2000;
+                        errorRate = 10;
+                        break;
+                    default: // Default to casual
+                        skillLevel = 5;
+                        searchTime = 300;
+                        errorRate = 600;
+                        break;
+                }
                 
                 // Configure Stockfish for this move
-                stockfish.postMessage('position fen ' + fen);
                 stockfish.postMessage('setoption name Skill Level value ' + skillLevel);
-                
-                // Calculate search time based on difficulty (ms)
-                const searchTime = difficulty * 500; // 500ms to 2000ms
+                stockfish.postMessage('setoption name Skill Level Maximum Error value ' + errorRate);
+                stockfish.postMessage('setoption name Skill Level Probability value 128');
+                stockfish.postMessage('position fen ' + fen);
                 stockfish.postMessage('go movetime ' + searchTime);
             } else {
                 // Fallback to simple AI
@@ -913,7 +946,10 @@
             updateStatus();
             updateMoveHistory();
             $('#fenString').text(game.fen());
-            $('#evaluation').text('Evaluation: ' + (evaluateBoard(boardTo2D(game)) / 100).toFixed(2));
+            const evalText = useStockfish && stockfish ? 
+                'Engine: Stockfish ' + $('#difficulty option:selected').text() : 
+                'Evaluation: ' + (evaluateBoard(boardTo2D(game)) / 100).toFixed(2);
+            $('#evaluation').text(evalText);
             $('#undoBtn').prop('disabled', game.history().length === 0);
             
             // Track position history (keep last 10 positions)
