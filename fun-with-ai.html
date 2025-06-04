@@ -508,6 +508,11 @@
                         }
                         aiThinking = false;
                     }
+                    
+                    // Handle readyok response
+                    if (typeof message === 'string' && message.trim() === 'readyok') {
+                        console.log('Stockfish is ready');
+                    }
                 });
                 
                 // Initialize Stockfish
@@ -883,33 +888,27 @@
                 
                 // Wait for readyok before sending position and go command
                 setTimeout(() => {
+                    console.log('Setting position: ' + fen);
                     stockfish.postMessage('position fen ' + fen);
-                    console.log('Sending go command: go movetime ' + searchTime);
-                    stockfish.postMessage('go movetime ' + searchTime);
                     
-                    // Safety timeout - if no response in 3 seconds, fall back to simple AI
+                    // Try simple go command with nodes limit
+                    const nodeLimit = 1000 * difficulty; // 1000-5000 nodes
+                    console.log('Sending go command: go nodes ' + nodeLimit);
+                    stockfish.postMessage('go nodes ' + nodeLimit);
+                    
+                    // Safety timeout - if no response in 10 seconds, something is wrong
                     setTimeout(() => {
                         if (aiThinking) {
-                            console.log('Stockfish timeout - falling back to simple AI');
+                            console.log('Stockfish completely unresponsive - reloading page recommended');
                             aiThinking = false;
-                            const move = getBestMove();
-                            if (move) {
-                                game.move(move);
-                                updateBoard();
-                            }
+                            $('#status').html('AI Error - Please refresh page').addClass('error');
                         }
-                    }, 3000);
-                }, 50);
-            } else {
-                // Fallback to simple AI
-                setTimeout(() => {
-                    const move = getBestMove();
-                    if (move) {
-                        game.move(move);
-                        updateBoard();
-                    }
-                    aiThinking = false;
+                    }, 10000);
                 }, 100);
+            } else {
+                // Stockfish not available
+                aiThinking = false;
+                $('#status').html('Stockfish not loaded - Please refresh page').addClass('error');
             }
         }
 
