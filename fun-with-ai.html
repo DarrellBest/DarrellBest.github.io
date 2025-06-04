@@ -460,8 +460,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-    <!-- Stockfish.js for strong chess AI -->
-    <script src="https://unpkg.com/stockfish.js@10.0.2/stockfishjs.js"></script>
     
     <script>
         // Global variables
@@ -477,13 +475,14 @@
         // Initialize Stockfish
         function initStockfish() {
             try {
-                stockfish = new Worker('https://unpkg.com/stockfish.js@10.0.2/stockfishjs.js');
+                // Load Stockfish from local files
+                stockfish = new Worker('js/stockfish.js');
                 
                 stockfish.addEventListener('message', function(e) {
                     const message = e.data;
                     
                     // Parse Stockfish output for best move
-                    if (message.startsWith('bestmove')) {
+                    if (typeof message === 'string' && message.startsWith('bestmove')) {
                         const parts = message.split(' ');
                         const bestMove = parts[1];
                         
@@ -509,13 +508,16 @@
                 
                 // Initialize Stockfish
                 stockfish.postMessage('uci');
-                stockfish.postMessage('setoption name Threads value 1');
-                stockfish.postMessage('setoption name Hash value 16');
-                stockfish.postMessage('ucinewgame');
+                setTimeout(() => {
+                    stockfish.postMessage('setoption name Threads value 1');
+                    stockfish.postMessage('setoption name Hash value 16');
+                    stockfish.postMessage('ucinewgame');
+                }, 100);
                 
                 console.log('Stockfish initialized successfully');
             } catch (error) {
                 console.error('Failed to initialize Stockfish:', error);
+                console.log('Falling back to built-in AI');
                 useStockfish = false;
             }
         }
