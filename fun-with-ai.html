@@ -201,6 +201,7 @@
         /* Chess board styling - BIGGER */
         #board {
             width: 560px;
+            max-width: 100%;
             margin: 20px auto;
             border-radius: 8px;
             overflow: hidden;
@@ -308,11 +309,10 @@
 
             /* Make board responsive */
             #board {
+                max-width: 100%;
                 margin: 15px auto;
                 touch-action: none; /* Prevent scrolling when dragging pieces */
                 position: relative;
-                /* Board size will be set by JavaScript */
-                min-height: 300px; /* Prevent layout shift */
             }
 
             .status {
@@ -393,11 +393,6 @@
 
         /* Extra small devices */
         @media (max-width: 380px) {
-            #board {
-                width: calc(100vw - 30px) !important;
-                height: calc(100vw - 30px) !important;
-            }
-
             h1 {
                 font-size: 20px;
             }
@@ -466,7 +461,6 @@
     <script>
         // Global variables
         var gameInstance = null;
-        var initialBoardSize = null;
         var playerColor = 'white';
 
         // Map difficulty dropdown (1-5) to Stockfish skill levels
@@ -480,17 +474,12 @@
 
         // Get board size based on screen width
         function getBoardSize() {
-            if (initialBoardSize && window.innerWidth <= 768) {
-                return initialBoardSize;
-            }
-
-            if (window.innerWidth <= 768) {
-                var viewportWidth = document.documentElement.clientWidth;
-                var maxSize = Math.min(viewportWidth - 40, window.innerHeight - 400, 400);
-                if (!initialBoardSize) {
-                    initialBoardSize = maxSize;
-                }
-                return maxSize;
+            var viewportWidth = document.documentElement.clientWidth;
+            if (viewportWidth <= 768) {
+                // Use available width minus padding, capped at 560
+                var containerPadding = 40; // body padding + game-container padding
+                var size = Math.min(viewportWidth - containerPadding, 560);
+                return Math.max(size, 200); // minimum 200px
             }
             return 560;
         }
@@ -537,6 +526,7 @@
             var boardEl = document.getElementById('board');
             boardEl.style.width = boardSize + 'px';
             boardEl.style.height = boardSize + 'px';
+            gameInstance.board.resize();
 
             // Difficulty change updates skill level mid-game
             document.getElementById('difficulty').addEventListener('change', function () {
@@ -588,23 +578,16 @@
 
         // Handle window resize for mobile
         var resizeTimeout;
-        var lastOrientation = window.orientation;
 
         window.addEventListener('resize', function () {
-            if (window.innerWidth <= 768) {
-                var currentOrientation = window.orientation;
-                if (currentOrientation === lastOrientation) return;
-                lastOrientation = currentOrientation;
-                initialBoardSize = null;
-            }
-
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(function () {
-                if (gameInstance) {
+                if (gameInstance && gameInstance.board) {
                     var boardSize = getBoardSize();
                     var boardEl = document.getElementById('board');
                     boardEl.style.width = boardSize + 'px';
                     boardEl.style.height = boardSize + 'px';
+                    gameInstance.board.resize();
                 }
             }, 250);
         });
