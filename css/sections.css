@@ -524,15 +524,39 @@ article ul li {
   100% { background-position: -200% 0; }
 }
 
+/* Skill Tags Layout */
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.skill-tags .tag {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+}
+
 /* Contact Section */
-#contact .container {
-  /* Removed box styling to match other sections */
+.contact-intro {
+  color: var(--foreground-secondary);
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  max-width: 72ch;
 }
 
 #contact p {
   display: flex;
   align-items: center;
   margin-bottom: 1.2rem;
+}
+
+#contact p > svg {
+  width: 18px;
+  height: 18px;
+  margin-right: 0.8rem;
+  color: var(--accent);
+  flex-shrink: 0;
 }
 
 #contact p strong {
@@ -558,8 +582,15 @@ article ul li {
   border-bottom-color: var(--accent);
 }
 
-#contact a svg {
-  margin-right: 0.5rem;
+/* Compact section spacing for adjacent sections */
+.section-compact-bottom {
+  padding-bottom: 0.5rem;
+  margin-bottom: -1.5rem;
+}
+
+.section-compact-top {
+  padding-top: 0.5rem;
+  margin-top: -1.5rem;
 }
 
 /* Blog Header */

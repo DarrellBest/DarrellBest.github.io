@@ -5,7 +5,7 @@
 
 ## Overview
 
-Personal portfolio website showcasing my work as a Senior AI Research Engineer. Features a comprehensive blog covering AI research, ethics, hardware acceleration, and privacy-preserving technologies. Built with modern web technologies and a focus on performance, accessibility, and responsive design.
+Personal portfolio website showcasing my work as a Senior AI Research Engineer II at USC's Information Sciences Institute. Features a comprehensive blog covering AI research, ethics, hardware acceleration, and privacy-preserving technologies. Built with modern web technologies and a focus on performance, accessibility, and responsive design.
 
 **Live Site:** [https://darrellbest.github.io](https://darrellbest.github.io)
 
@@ -51,7 +51,9 @@ Personal portfolio website showcasing my work as a Senior AI Research Engineer. 
 │   ├── responsive.css # Responsive breakpoints
 │   └── blog.css       # Blog-specific styles
 ├── script.js          # JavaScript functionality
-├── me.png            # Profile picture
+├── me.jpg            # Profile picture
+├── favicon.ico       # Favicon (ICO format)
+├── favicon.png       # Favicon (PNG format)
 └── README.md         # This file
 ```
 
@@ -61,11 +63,11 @@ Personal portfolio website showcasing my work as a Senior AI Research Engineer. 
 - **Experience**: Work history and key projects including Hawkeye, Danube, and Sonic Screwdriver
 - **Featured Articles**: Showcasing latest blog posts on the homepage
 - **Blog**: Comprehensive AI research blog with the following articles:
-  - The Future of Multilingual AI (Updated May 2025)
-  - AI in Healthcare: Transforming Medical Diagnostics (Updated May 2025)
-  - Privacy-Preserving AI with Federated Learning (Updated May 2025)
-  - Ethical Considerations in AI Development (Updated May 2025)
-  - Hardware Acceleration for AI: The Complete Landscape (Updated May 2025)
+  - The Future of Multilingual AI (Updated February 2026)
+  - AI in Healthcare: Transforming Medical Diagnostics (Updated February 2026)
+  - Privacy-Preserving AI with Federated Learning (Updated February 2026)
+  - Ethical Considerations in AI Development (Updated February 2026)
+  - Hardware Acceleration for AI: The Complete Landscape (Updated February 2026)
 - **Education**: Academic background (MS in Computer Science at USC, BS from Clemson)
 - **Publications**: Research publications including ETRA 2016 paper
 - **Skills**: Technical skills breakdown (Python, PyTorch, Hugging Face, etc.)
@@ -87,16 +89,13 @@ To run locally:
    npx http-server
    ```
 
-## Recent Updates (May 2025)
+## Recent Updates (February 2026)
 
-- **Mobile Responsiveness**: Fixed navigation issues and black spacing on tablet/mobile views
-- **Blog Redesign**: Professional blog layout with featured posts and category filtering
-- **Content Updates**: All blog articles updated with latest AI developments:
-  - Multilingual AI: GPT-4o, Llama 3, Gemini 1.5 Pro coverage
-  - Healthcare AI: 600+ FDA approvals, real-world deployments
-  - Federated Learning: $50B+ market analysis, industry adoption
-  - AI Ethics: OpenAI governance crisis, deepfake epidemic, regulatory updates
-  - Hardware: NVIDIA Blackwell, ASICs, Groq LPU, complete landscape coverage
+- **Performance**: Compressed profile image (5.1MB → 69KB), local favicons
+- **SEO**: Added meta descriptions and Open Graph tags to all pages
+- **Security**: Email obfuscation, pinned CDN dependencies, added rel="noopener noreferrer"
+- **Content**: Removed unverifiable statistics, updated all blog articles with honest qualitative language
+- **Professional Updates**: Updated title to Senior Research Engineer II
 
 ## Performance Optimizations
 
@@ -117,7 +116,7 @@ To run locally:
 
 ## License
 
-© 2025 Darrell S. Best Jr. All rights reserved.
+© 2026 Darrell S. Best Jr. All rights reserved.
 
 ---
 

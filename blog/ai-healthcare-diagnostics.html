@@ -4,15 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI in Healthcare: Transforming Medical Diagnostics — Darrell S. Best Jr.</title>
-  
-  <!-- Favicon from online service -->
-  <link rel="icon" href="https://img.icons8.com/color/48/000000/artificial-intelligence.png" type="image/png">
-  <link rel="shortcut icon" href="https://img.icons8.com/color/48/000000/artificial-intelligence.png" type="image/png">
+  <meta name="description" content="An in-depth look at how AI is revolutionizing medical text classification and diagnosis, covering technical challenges and ethical considerations.">
+  <meta property="og:title" content="AI in Healthcare: Transforming Medical Diagnostics — Darrell S. Best Jr.">
+  <meta property="og:description" content="An in-depth look at how AI is revolutionizing medical text classification and diagnosis.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="../me.jpg">
+
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="icon" href="../favicon.png" type="image/png" sizes="192x192">
   <meta name="theme-color" content="#4ECCA3">
-  
+
   <link rel="stylesheet" href="../css/main.css" />
-  <!-- Load Feather Icons from unpkg -->
-  <script src="https://unpkg.com/feather-icons"></script>
+  <script src="https://unpkg.com/feather-icons@4.29.2/dist/feather.min.js"></script>
 </head>
 <body>
   <!-- Mobile Header (Visible on Mobile Only) -->
@@ -33,7 +36,7 @@
   <nav id="sidebar">
     <!-- Profile Picture Slot -->
     <div class="profile-pic">
-      <img src="../me.png" alt="Darrell S. Best Jr." />
+      <img src="../me.jpg" alt="Darrell S. Best Jr." />
     </div>
     <div class="nav-header">
       <h2>Darrell S. Best Jr.</h2>
@@ -84,6 +87,16 @@
           <i data-feather="mail"></i>  Contact
         </a>
       </li>
+      <li>
+        <a href="https://scholar.google.com/citations?user=iG2Bkd8AAAAJ&hl=en&oi=sra" class="nav-item" target="_blank" rel="noopener noreferrer">
+          <i data-feather="award"></i>  Scholar
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/DarrellBest" class="nav-item" target="_blank" rel="noopener noreferrer">
+          <i data-feather="github"></i>  GitHub
+        </a>
+      </li>
     </ul>
   </nav>
 
@@ -95,7 +108,7 @@
         <div class="blog-post-meta">
           <span class="blog-post-date">May 10, 2025</span>
           <span class="blog-post-category">Healthcare</span>
-          <span class="blog-post-updated">Updated: May 28, 2025</span>
+          <span class="blog-post-updated">Updated: February 15, 2026</span>
         </div>
         <h1>AI in Healthcare: Transforming Medical Diagnostics</h1>
         <div class="blog-post-tags">
@@ -104,7 +117,7 @@
           <span class="tag">Medical AI</span>
         </div>
         <div class="blog-post-image-full">
-          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Medical AI Article">
+          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Medical AI Article" loading="lazy">
         </div>
       </div>
     </section>
@@ -132,11 +145,11 @@
             Perhaps the most mature application of AI in diagnostics is in medical imaging. Deep learning models have achieved FDA approvals and clinical deployment at scale:
           </p>
           <ul>
-            <li><strong>Google's Med-PaLM 2:</strong> Achieves 85%+ accuracy on medical licensing exam questions and powers diagnostic assistants</li>
+            <li><strong>Google's Med-PaLM 2:</strong> Scored at an expert level on medical licensing exam questions, powering diagnostic assistant research</li>
             <li><strong>IDx-DR:</strong> First FDA-approved autonomous AI for diabetic retinopathy screening, now deployed in primary care</li>
-            <li><strong>Paige Prostate:</strong> FDA-approved AI for prostate cancer detection with 96% sensitivity</li>
-            <li><strong>Caption Health's Echo AI:</strong> Enables non-specialists to perform cardiac ultrasounds with AI guidance</li>
-            <li><strong>Viz.ai's stroke detection:</strong> Reduces time to treatment by 96 minutes on average through automated CT analysis</li>
+            <li><strong>Paige Prostate:</strong> FDA-approved AI for prostate cancer detection, demonstrating high sensitivity in clinical studies</li>
+            <li><strong>Caption Health's Echo AI:</strong> Provides AI guidance for cardiac ultrasounds, expanding access beyond specialist settings</li>
+            <li><strong>Viz.ai's stroke detection:</strong> Significantly reduces time to treatment through automated CT analysis and care team notification</li>
           </ul>
 
           <h3>Clinical Text Classification and LLMs</h3>
@@ -146,7 +159,7 @@
           <ul>
             <li><strong>Epic's integration with GPT-4:</strong> Automated clinical note generation and summarization across thousands of hospitals</li>
             <li><strong>Nuance's DAX Express:</strong> Ambient clinical intelligence that creates clinical notes from patient conversations</li>
-            <li><strong>Google's AMIE:</strong> Achieves diagnostic accuracy comparable to primary care physicians in conversational consultations</li>
+            <li><strong>Google's AMIE:</strong> Showed promising diagnostic accuracy in controlled conversational studies, though real-world validation continues</li>
             <li><strong>Microsoft's BioGPT:</strong> Specialized for biomedical text mining and literature analysis</li>
             <li><strong>Anthropic's Constitutional AI:</strong> Being tested for safe medical advice generation with built-in ethical constraints</li>
           </ul>
@@ -156,11 +169,11 @@
             AI is enabling breakthrough advances in genomic interpretation and personalized medicine:
           </p>
           <ul>
-            <li><strong>AlphaFold 3:</strong> Now predicts drug-protein interactions with 99%+ accuracy, revolutionizing drug discovery</li>
-            <li><strong>Foundation Medicine's FoundationOne:</strong> AI-powered comprehensive genomic profiling used in 50%+ of US cancer centers</li>
-            <li><strong>Tempus AI:</strong> Analyzes molecular and clinical data from 50% of US oncologists for precision treatment</li>
-            <li><strong>23andMe's polygenic risk scores:</strong> AI-calculated disease risk for 10+ conditions from consumer genetic data</li>
-            <li><strong>DeepVariant:</strong> Google's open-source variant caller achieves 99.5% accuracy in identifying genetic mutations</li>
+            <li><strong>AlphaFold 3:</strong> Extended protein structure prediction to model drug-protein interactions, accelerating drug discovery pipelines</li>
+            <li><strong>Foundation Medicine's FoundationOne:</strong> AI-powered comprehensive genomic profiling widely adopted across US cancer centers</li>
+            <li><strong>Tempus AI:</strong> Analyzes molecular and clinical data to support oncologists with precision treatment recommendations</li>
+            <li><strong>23andMe's polygenic risk scores:</strong> AI-calculated disease risk for multiple conditions from consumer genetic data</li>
+            <li><strong>DeepVariant:</strong> Google's open-source variant caller for high-accuracy identification of genetic mutations</li>
           </ul>
 
           <h3>Physiological Signal Analysis and Wearables</h3>
@@ -168,11 +181,11 @@
             AI-powered wearables and signal analysis are moving diagnostics from hospitals to homes:
           </p>
           <ul>
-            <li><strong>Apple Watch AFib detection:</strong> FDA-cleared irregular rhythm notifications, detecting AFib in 1-2% of users over 65</li>
-            <li><strong>Oura Ring's illness prediction:</strong> Detects COVID-19 symptoms 2.75 days before testing positive with 90% accuracy</li>
-            <li><strong>AliveCor's KardiaMobile 6L:</strong> Six-lead ECG with AI analysis detecting 6 arrhythmias via smartphone</li>
-            <li><strong>Whoop's strain coach:</strong> AI-driven recovery and readiness scores based on HRV, sleep, and strain</li>
-            <li><strong>Dexcom G7 with AI:</strong> Predictive glucose alerts 20 minutes before hypoglycemic events</li>
+            <li><strong>Apple Watch AFib detection:</strong> FDA-cleared irregular rhythm notifications enabling early detection outside clinical settings</li>
+            <li><strong>Oura Ring's health monitoring:</strong> Tracks physiological signals that may indicate onset of illness before symptoms appear</li>
+            <li><strong>AliveCor's KardiaMobile 6L:</strong> Six-lead ECG with AI analysis for detecting multiple arrhythmias via smartphone</li>
+            <li><strong>Whoop's strain coach:</strong> AI-driven recovery and readiness scores based on HRV, sleep, and strain data</li>
+            <li><strong>Dexcom G7 with AI:</strong> Predictive glucose alerts warning of hypoglycemic events before they occur</li>
           </ul>
 
           <h2>Technical Challenges in Medical AI</h2>
@@ -275,7 +288,7 @@
 
           <h3>Recent Regulatory Developments</h3>
           <p>
-            2024-2025 has seen significant regulatory evolution:
+            Recent years have seen significant regulatory evolution:
           </p>
           <ul>
             <li><strong>EU AI Act:</strong> Classifies medical AI as "high-risk," requiring rigorous testing and transparency</li>
@@ -287,31 +300,31 @@
 
           <h2>Recent Breakthroughs and Clinical Impact</h2>
           <p>
-            2024-2025 has seen unprecedented clinical adoption and real-world impact of AI diagnostics:
+            Recent years have seen unprecedented clinical adoption and real-world impact of AI diagnostics:
           </p>
 
           <h3>FDA Approvals and Regulatory Progress</h3>
           <p>
-            The FDA has approved over 600 AI/ML-enabled medical devices, with accelerating pace:
+            The FDA has approved hundreds of AI/ML-enabled medical devices, with the pace accelerating each year:
           </p>
           <ul>
-            <li><strong>Autonomous AI diagnostics:</strong> 15+ systems approved for autonomous diagnosis without physician oversight</li>
-            <li><strong>Emergency care AI:</strong> Aidoc, RapidAI, and Viz.ai deployed in 1,500+ hospitals for stroke, PE, and trauma</li>
-            <li><strong>Pathology AI:</strong> Paige, PathAI, and Ibex Medical Analytics transforming cancer diagnosis accuracy</li>
-            <li><strong>Mental health AI:</strong> Ellipsis Health's voice biomarkers for depression/anxiety assessment</li>
-            <li><strong>Pediatric AI:</strong> First FDA approvals for AI in pediatric rare disease diagnosis</li>
+            <li><strong>Autonomous AI diagnostics:</strong> A growing number of systems approved for autonomous diagnosis without physician oversight</li>
+            <li><strong>Emergency care AI:</strong> Aidoc, RapidAI, and Viz.ai deployed across many hospitals for stroke, PE, and trauma triage</li>
+            <li><strong>Pathology AI:</strong> Paige, PathAI, and Ibex Medical Analytics improving cancer diagnosis workflows</li>
+            <li><strong>Mental health AI:</strong> Emerging tools using voice biomarkers for depression and anxiety assessment</li>
+            <li><strong>Pediatric AI:</strong> Early FDA approvals for AI in pediatric rare disease diagnosis</li>
           </ul>
 
-          <h3>Real-World Performance Data</h3>
+          <h3>Clinical Adoption Highlights</h3>
           <p>
-            Large-scale deployment has validated AI's clinical impact:
+            Large-scale deployments are demonstrating AI's clinical potential:
           </p>
           <ul>
-            <li><strong>Kaiser Permanente:</strong> 95% reduction in false-positive mammograms using AI pre-screening</li>
-            <li><strong>Mount Sinai:</strong> AI predicts patient deterioration 48 hours in advance with 90% accuracy</li>
-            <li><strong>NHS UK:</strong> AI colonoscopy assistance increases polyp detection by 50%</li>
-            <li><strong>Cleveland Clinic:</strong> 30% reduction in diagnostic errors using AI-assisted radiology</li>
-            <li><strong>Mayo Clinic:</strong> AI ECG screening detects asymptomatic left ventricular dysfunction years before symptoms</li>
+            <li><strong>Mammography AI:</strong> Multiple health systems report meaningful reductions in false-positive rates using AI pre-screening</li>
+            <li><strong>Predictive deterioration:</strong> AI models at institutions like Mount Sinai can flag patient deterioration hours in advance</li>
+            <li><strong>GI endoscopy:</strong> AI-assisted colonoscopy is improving polyp detection rates in multiple clinical trials</li>
+            <li><strong>Radiology AI:</strong> AI-assisted radiology is reducing diagnostic turnaround times and supporting radiologist workflows</li>
+            <li><strong>Cardiac screening:</strong> Mayo Clinic's AI ECG research has shown potential to detect asymptomatic heart conditions before symptoms appear</li>
           </ul>
 
           <h2>The Future of AI in Medical Diagnostics</h2>
@@ -325,10 +338,10 @@
           </p>
           <ul>
             <li><strong>Med-Gemini:</strong> Google's multimodal medical AI processes text, images, and genomics simultaneously</li>
-            <li><strong>BiomedGPT:</strong> Microsoft's foundation model trained on 28M biomedical papers and clinical data</li>
-            <li><strong>PLIP:</strong> PathLM integrating pathology images with clinical text for 95%+ cancer subtyping accuracy</li>
-            <li><strong>GatorTron:</strong> University of Florida's 8.9B parameter model trained on 90B words of clinical text</li>
-            <li><strong>SCOOP:</strong> Stanford's multimodal AI combining imaging, labs, and notes for ICU predictions</li>
+            <li><strong>BiomedGPT:</strong> Microsoft's foundation model trained on biomedical literature and clinical data</li>
+            <li><strong>Pathology-language models:</strong> Emerging models integrating pathology images with clinical text for cancer subtyping</li>
+            <li><strong>GatorTron:</strong> University of Florida's large-scale model trained on billions of words of clinical text</li>
+            <li><strong>Multimodal ICU models:</strong> Research combining imaging, lab results, and clinical notes for patient outcome prediction</li>
           </ul>
 
           <h3>Federated and Distributed Learning</h3>
@@ -366,11 +379,11 @@
 
           <h2>Conclusion</h2>
           <p>
-            The transformation of medical diagnostics by AI is no longer a future promise—it's today's reality. With over 600 FDA-approved AI medical devices, deployment in thousands of hospitals worldwide, and measurable improvements in patient outcomes, AI has moved from research labs to clinical practice at unprecedented speed.
+            The transformation of medical diagnostics by AI is no longer a future promise—it's today's reality. With hundreds of FDA-approved AI medical devices, deployment across hospitals worldwide, and measurable improvements in clinical workflows, AI has moved from research labs to clinical practice at unprecedented speed.
           </p>
 
           <p>
-            The developments of 2024-2025 have been particularly remarkable. Foundation models like Med-PaLM 2 and Med-Gemini are achieving physician-level performance across multiple specialties. Consumer wearables are democratizing health monitoring, detecting conditions years before symptoms appear. Most importantly, real-world deployments are showing dramatic improvements: 95% reductions in false positives, 50% increases in disease detection, and life-saving early warnings.
+            Recent developments have been particularly remarkable. Foundation models like Med-PaLM 2 and Med-Gemini are approaching physician-level performance in controlled evaluations. Consumer wearables are democratizing health monitoring, potentially detecting conditions before symptoms appear. Most importantly, real-world deployments are beginning to show meaningful improvements in diagnostic accuracy, workflow efficiency, and early detection.
           </p>
 
           <p>
@@ -396,7 +409,7 @@
 
     <footer>
       <div class="container">
-        <p>&copy; 2025 Darrell S. Best Jr. All rights reserved.</p>
+        <p>&copy; 2026 Darrell S. Best Jr. All rights reserved.</p>
       </div>
     </footer>
   </div>

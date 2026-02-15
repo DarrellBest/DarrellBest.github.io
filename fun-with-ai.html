@@ -446,6 +446,7 @@
 
         <div class="controls">
             <button onclick="newGame()">New Game</button>
+            <button onclick="undoMove()">Undo</button>
             <button onclick="gameInstance && gameInstance.board && gameInstance.board.flip()">Flip Board</button>
             <button id="playAsBtn" onclick="switchSides()">Play as Black</button>
         </div>
@@ -463,142 +464,160 @@
     <script src="js/enginegame.js"></script>
     
     <script>
-        // Global variables using enginegame.js pattern
-        let gameInstance = null;
-        let initialBoardSize = null;
-        
-        // Function to get board size based on screen width
+        // Global variables
+        var gameInstance = null;
+        var initialBoardSize = null;
+        var playerColor = 'white';
+
+        // Map difficulty dropdown (1-5) to Stockfish skill levels
+        var difficultyMap = {
+            1: 1,   // Beginner → depth 1
+            2: 5,   // Casual → depth 3
+            3: 10,  // Intermediate → depth 5
+            4: 15,  // Advanced → depth 8
+            5: 20   // Expert → depth 12
+        };
+
+        // Get board size based on screen width
         function getBoardSize() {
             if (initialBoardSize && window.innerWidth <= 768) {
                 return initialBoardSize;
             }
-            
+
             if (window.innerWidth <= 768) {
-                const containerPadding = 30;
-                const extraPadding = 10;
-                const viewportWidth = document.documentElement.clientWidth;
-                const maxSize = Math.min(
-                    viewportWidth - containerPadding - extraPadding,
-                    window.innerHeight - 400,
-                    400
-                );
-                
+                var viewportWidth = document.documentElement.clientWidth;
+                var maxSize = Math.min(viewportWidth - 40, window.innerHeight - 400, 400);
                 if (!initialBoardSize) {
                     initialBoardSize = maxSize;
                 }
-                
                 return maxSize;
             }
             return 560;
         }
-        
-        // New game function
+
+        // Start a new game with current settings
         function newGame() {
-            if (gameInstance) {
-                const difficulty = parseInt($('#difficulty').val());
-                const playerColor = $('#playAsBtn').text().includes('Black') ? 'white' : 'black';
-                
-                gameInstance.reset();
-                gameInstance.setSkillLevel(difficulty * 4); // Map 1-5 to 4-20
-                gameInstance.setPlayerColor(playerColor);
-                gameInstance.setDisplayScore(true);
-                gameInstance.start();
-                
-                // Update button text
-                $('#playAsBtn').text(playerColor === 'white' ? 'Play as Black' : 'Play as White');
-            }
+            if (!gameInstance) return;
+
+            var difficulty = parseInt(document.getElementById('difficulty').value) || 2;
+            var skillLevel = difficultyMap[difficulty] || 5;
+
+            gameInstance.game.reset();
+            gameInstance.setSkillLevel(skillLevel);
+            gameInstance.setPlayerColor(playerColor);
+            gameInstance.setDisplayScore(true);
+            gameInstance.start();
+
+            // Update button text to show the opposite option
+            document.getElementById('playAsBtn').textContent =
+                playerColor === 'white' ? 'Play as Black' : 'Play as White';
         }
-        
-        // Switch sides function
+
+        // Switch sides and start a new game
         function switchSides() {
+            playerColor = (playerColor === 'white') ? 'black' : 'white';
             newGame();
         }
-        
-        // Initialize the game using enginegame.js
+
+        // Undo the last move pair (player + engine)
+        function undoMove() {
+            if (gameInstance) {
+                gameInstance.undo();
+            }
+        }
+
+        // Initialize the game
         function initGame() {
-            const options = {
+            gameInstance = engineGame({
                 stockfishjs: 'js/stockfish.js'
-            };
-            
-            gameInstance = engineGame(options);
-            
-            // Override the board size in enginegame
-            const boardSize = getBoardSize();
-            $('#board').css({
-                'width': boardSize + 'px',
-                'height': boardSize + 'px'
             });
-            
-            // Set up event listeners
-            document.getElementById("difficulty").addEventListener("change", function() {
+
+            // Set board size
+            var boardSize = getBoardSize();
+            var boardEl = document.getElementById('board');
+            boardEl.style.width = boardSize + 'px';
+            boardEl.style.height = boardSize + 'px';
+
+            // Difficulty change updates skill level mid-game
+            document.getElementById('difficulty').addEventListener('change', function () {
                 if (gameInstance) {
-                    const skillLevel = parseInt(this.value) * 4; // Map 1-5 to 4-20
-                    gameInstance.setSkillLevel(skillLevel);
+                    var difficulty = parseInt(this.value) || 2;
+                    gameInstance.setSkillLevel(difficultyMap[difficulty] || 5);
                 }
             });
-            
+
             // Start initial game
             newGame();
         }
-        
+
         // Copy FEN to clipboard
         function copyFEN() {
-            // Get FEN from the enginegame instance
-            if (gameInstance && gameInstance.game) {
-                const fenText = gameInstance.game.fen();
-                navigator.clipboard.writeText(fenText).then(() => {
-                    $('#fenDisplay').addClass('copied');
-                    setTimeout(() => $('#fenDisplay').removeClass('copied'), 2000);
-                }).catch(() => {
-                    const textArea = document.createElement('textarea');
-                    textArea.value = fenText;
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textArea);
-                    $('#fenDisplay').addClass('copied');
-                    setTimeout(() => $('#fenDisplay').removeClass('copied'), 2000);
+            if (!gameInstance || !gameInstance.game) return;
+
+            var fenText = gameInstance.game.fen();
+            var fenDisplay = document.getElementById('fenDisplay');
+
+            function showCopied() {
+                fenDisplay.classList.add('copied');
+                setTimeout(function () {
+                    fenDisplay.classList.remove('copied');
+                }, 2000);
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(fenText).then(showCopied).catch(function () {
+                    fallbackCopy(fenText);
+                    showCopied();
                 });
+            } else {
+                fallbackCopy(fenText);
+                showCopied();
             }
         }
-        
+
+        function fallbackCopy(text) {
+            var textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try { document.execCommand('copy'); } catch (e) { /* ignore */ }
+            document.body.removeChild(textArea);
+        }
+
         // Handle window resize for mobile
-        let resizeTimeout;
-        let lastOrientation = window.orientation;
-        
-        window.addEventListener('resize', function() {
+        var resizeTimeout;
+        var lastOrientation = window.orientation;
+
+        window.addEventListener('resize', function () {
             if (window.innerWidth <= 768) {
-                const currentOrientation = window.orientation;
-                if (currentOrientation === lastOrientation) {
-                    return;
-                }
+                var currentOrientation = window.orientation;
+                if (currentOrientation === lastOrientation) return;
                 lastOrientation = currentOrientation;
                 initialBoardSize = null;
             }
-            
+
             clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(function() {
+            resizeTimeout = setTimeout(function () {
                 if (gameInstance) {
-                    const boardSize = getBoardSize();
-                    $('#board').css({
-                        'width': boardSize + 'px',
-                        'height': boardSize + 'px'
-                    });
+                    var boardSize = getBoardSize();
+                    var boardEl = document.getElementById('board');
+                    boardEl.style.width = boardSize + 'px';
+                    boardEl.style.height = boardSize + 'px';
                 }
             }, 250);
         });
 
         // Initialize when DOM is ready
-        $(document).ready(function() {
-            // Initialize the game
+        $(document).ready(function () {
             initGame();
-            
-            // Mobile-specific fixes
+
+            // Mobile: prevent zooming on double tap
             if (window.innerWidth <= 768) {
-                // Prevent zooming on double tap
-                let lastTouchEnd = 0;
-                document.addEventListener('touchend', function(e) {
-                    const now = (new Date()).getTime();
+                var lastTouchEnd = 0;
+                document.addEventListener('touchend', function (e) {
+                    var now = Date.now();
                     if (now - lastTouchEnd <= 300) {
                         e.preventDefault();
                     }
