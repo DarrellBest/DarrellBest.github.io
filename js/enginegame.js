@@ -185,7 +185,7 @@ function engineGame(options) {
     board = new ChessBoard('board', {
         draggable: true,
         position: 'start',
-        pieceTheme: 'https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/img/chesspieces/wikipedia/{piece}.png',
+        pieceTheme: 'img/chesspieces/wikipedia/{piece}.svg',
         onDragStart: onDragStart,
         onDrop: onDrop,
         onSnapEnd: onSnapEnd
