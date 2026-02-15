@@ -110,11 +110,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const heroTitle = document.getElementById('hero-title');
-  const textToType = "Senior AI Research Engineer";
+  const textToType = "Senior AI Research Engineer II";
   const typingSpeed = 100; // milliseconds per character
 
   if (heroTitle) {
     typeWriter(heroTitle, textToType, typingSpeed);
+  }
+
+  // Email obfuscation - assembles email via JS to prevent scraping
+  const emailContainer = document.getElementById('email-contact');
+  if (emailContainer) {
+    const u = 'hireme';
+    const d = 'darrellbest.com';
+    const addr = u + '@' + d;
+    emailContainer.innerHTML = '<a href="ma' + 'ilto:' + addr + '">' + addr + '</a>';
   }
 
   // Parallax effect for background images (lighter effect)
