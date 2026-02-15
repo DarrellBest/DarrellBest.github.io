@@ -593,25 +593,6 @@ article ul li {
   margin-top: -1.5rem;
 }
 
-/* Blog Header */
-#blog-header {
-  text-align: center;
-  padding: 5rem 0 3rem;
-}
-
-#blog-header h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  color: var(--accent);
-}
-
-#blog-header p {
-  font-size: 1.2rem;
-  color: var(--foreground-secondary);
-  max-width: 600px;
-  margin: 0 auto;
-}
-
 /* Blog Post Header */
 #blog-post-header h1 {
   font-size: 2.5rem;

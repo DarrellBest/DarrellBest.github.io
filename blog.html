@@ -64,11 +64,6 @@
         </a>
       </li>
       <li>
-        <a href="index.html#projects" class="nav-item">
-          <i data-feather="file-text"></i>  Articles
-        </a>
-      </li>
-      <li>
         <a href="blog.html" class="nav-item active">
           <i data-feather="book-open"></i>  Blog
         </a>
@@ -111,8 +106,11 @@
     <!-- Blog Header Section -->
     <section id="blog-header" class="section">
       <div class="container">
-        <h1>AI Research Blog</h1>
-        <p class="subtitle">Deep dives into artificial intelligence, machine learning, and cutting-edge research</p>
+        <div class="blog-header-content">
+          <span class="blog-header-label">Research & Insights</span>
+          <h1>AI Research Blog</h1>
+          <p class="subtitle">Deep dives into artificial intelligence, machine learning, and cutting-edge research</p>
+        </div>
       </div>
     </section>
 
@@ -133,33 +131,35 @@
     <!-- Blog Posts Section -->
     <section id="blog-posts" class="section">
       <div class="container">
-        <div class="blog-grid">
-          <!-- Blog Post 1 -->
-          <article class="blog-post" data-category="research">
-            <div class="blog-post-image">
-              <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Multilingual LLM Article" loading="lazy">
+        <!-- Featured / Latest Post -->
+        <article class="blog-post blog-post-featured" data-category="research">
+          <div class="blog-post-image">
+            <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Multilingual LLM Article" loading="lazy">
+            <span class="featured-badge">Latest</span>
+          </div>
+          <div class="blog-post-content">
+            <div class="blog-post-meta">
+              <span class="blog-post-date"><i data-feather="calendar"></i> April 15, 2025</span>
+              <span class="blog-post-category">Research</span>
+              <span class="reading-time"><i data-feather="clock"></i> 8 min read</span>
             </div>
-            <div class="blog-post-content">
-              <div class="blog-post-meta">
-                <span class="blog-post-date"><i data-feather="calendar"></i> April 15, 2025</span>
-                <span class="blog-post-category">Research</span>
-                <span class="reading-time"><i data-feather="clock"></i> 8 min read</span>
+            <h2><a href="blog/multilingual-ai-future.html">The Future of Multilingual AI</a></h2>
+            <p class="blog-post-excerpt">Exploring how multilingual large language models are breaking down language barriers and enabling global communication. This article discusses the challenges and breakthroughs in training models across multiple languages simultaneously, featuring the latest developments in multilingual AI research.</p>
+            <div class="blog-post-footer">
+              <div class="blog-post-tags">
+                <span class="tag">Research</span>
+                <span class="tag">NLP</span>
+                <span class="tag">Global AI</span>
               </div>
-              <h2><a href="blog/multilingual-ai-future.html">The Future of Multilingual AI</a></h2>
-              <p class="blog-post-excerpt">Exploring how multilingual large language models are breaking down language barriers and enabling global communication. This article discusses the challenges and breakthroughs in training models across multiple languages simultaneously, featuring the latest developments in multilingual AI research.</p>
-              <div class="blog-post-footer">
-                <div class="blog-post-tags">
-                  <span class="tag">Research</span>
-                  <span class="tag">NLP</span>
-                  <span class="tag">Global AI</span>
-                </div>
-                <a href="blog/multilingual-ai-future.html" class="read-more">
-                  Read more <i data-feather="arrow-right"></i>
-                </a>
-              </div>
+              <a href="blog/multilingual-ai-future.html" class="read-more">
+                Read article <i data-feather="arrow-right"></i>
+              </a>
             </div>
-          </article>
+          </div>
+        </article>
 
+        <!-- Blog Grid -->
+        <div class="blog-grid">
           <!-- Blog Post 2 -->
           <article class="blog-post" data-category="healthcare">
             <div class="blog-post-image">
@@ -180,7 +180,7 @@
                   <span class="tag">Medical AI</span>
                 </div>
                 <a href="blog/ai-healthcare-diagnostics.html" class="read-more">
-                  Read more <i data-feather="arrow-right"></i>
+                  Read article <i data-feather="arrow-right"></i>
                 </a>
               </div>
             </div>
@@ -206,7 +206,7 @@
                   <span class="tag">Security</span>
                 </div>
                 <a href="blog/privacy-preserving-ai.html" class="read-more">
-                  Read more <i data-feather="arrow-right"></i>
+                  Read article <i data-feather="arrow-right"></i>
                 </a>
               </div>
             </div>
@@ -232,7 +232,7 @@
                   <span class="tag">Policy</span>
                 </div>
                 <a href="blog/ethical-considerations-ai.html" class="read-more">
-                  Read more <i data-feather="arrow-right"></i>
+                  Read article <i data-feather="arrow-right"></i>
                 </a>
               </div>
             </div>
@@ -259,14 +259,14 @@
                   <span class="tag">Performance</span>
                 </div>
                 <a href="blog/hardware-acceleration-ai.html" class="read-more">
-                  Read more <i data-feather="arrow-right"></i>
+                  Read article <i data-feather="arrow-right"></i>
                 </a>
               </div>
             </div>
           </article>
         </div>
 
-        <!-- Newsletter Signup -->
+        <!-- Collaboration CTA -->
         <div class="newsletter-section">
           <h3>Want to Collaborate?</h3>
           <p>Interested in AI research or have questions about my articles? Feel free to reach out.</p>
@@ -291,6 +291,8 @@
     document.addEventListener('DOMContentLoaded', function() {
       const filters = document.querySelectorAll('.category-filter');
       const posts = document.querySelectorAll('.blog-post');
+      const featuredPost = document.querySelector('.blog-post-featured');
+      const blogGrid = document.querySelector('.blog-grid');
 
       filters.forEach(filter => {
         filter.addEventListener('click', function() {
@@ -300,10 +302,10 @@
 
           const category = this.getAttribute('data-category');
 
-          // Filter posts
+          // Filter posts (including featured)
           posts.forEach(post => {
             if (category === 'all' || post.getAttribute('data-category') === category) {
-              post.style.display = 'flex';
+              post.style.display = '';
               setTimeout(() => {
                 post.style.opacity = '1';
                 post.style.transform = 'translateY(0)';
