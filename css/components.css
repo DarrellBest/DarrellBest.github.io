@@ -192,6 +192,10 @@ blockquote cite {
 }
 
 /* Tags */
+a.tag {
+  text-decoration: none;
+}
+
 .tag {
   background: linear-gradient(
     90deg,
