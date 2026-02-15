@@ -17,6 +17,41 @@
   <link rel="icon" href="favicon.png" type="image/png" sizes="192x192">
   <meta name="theme-color" content="#4ECCA3">
 
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Darrell S. Best Jr.",
+    "jobTitle": "Senior Research Engineer II",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Information Sciences Institute",
+      "parentOrganization": {
+        "@type": "Organization",
+        "name": "University of Southern California"
+      }
+    },
+    "url": "https://darrellbest.github.io",
+    "sameAs": [
+      "https://www.linkedin.com/in/darrellsbest/",
+      "https://github.com/DarrellBest",
+      "https://scholar.google.com/citations?user=iG2Bkd8AAAAJ"
+    ],
+    "alumniOf": [
+      {
+        "@type": "CollegeOrUniversity",
+        "name": "University of Southern California"
+      },
+      {
+        "@type": "CollegeOrUniversity",
+        "name": "Clemson University"
+      }
+    ],
+    "knowsAbout": ["Artificial Intelligence", "Machine Learning", "Natural Language Processing", "Federated Learning", "Deep Learning", "Cybersecurity"]
+  }
+  </script>
+
   <link rel="stylesheet" href="css/main.css" />
   <script src="https://unpkg.com/feather-icons@4.29.2/dist/feather.min.js"></script>
 </head>
@@ -91,6 +126,11 @@
       <li>
         <a href="#contact" class="nav-item">
           <i data-feather="mail"></i>  Contact
+        </a>
+      </li>
+      <li>
+        <a href="https://scholar.google.com/citations?user=iG2Bkd8AAAAJ&hl=en&oi=sra" class="nav-item" target="_blank" rel="noopener noreferrer">
+          <i data-feather="award"></i>  Scholar
         </a>
       </li>
       <li>
@@ -183,7 +223,7 @@
         <div class="projects-grid">
           <div class="project-card">
             <div class="project-image">
-              <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Multilingual LLM Article">
+              <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Multilingual LLM Article" loading="lazy">
             </div>
             <div class="project-content">
               <h3>The Future of Multilingual AI</h3>
@@ -199,7 +239,7 @@
 
           <div class="project-card">
             <div class="project-image">
-              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2068&q=80" alt="Federated Learning Article">
+              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2068&q=80" alt="Federated Learning Article" loading="lazy">
             </div>
             <div class="project-content">
               <h3>Privacy-Preserving AI with Federated Learning</h3>
@@ -215,7 +255,7 @@
 
           <div class="project-card">
             <div class="project-image">
-              <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Medical AI Article">
+              <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Medical AI Article" loading="lazy">
             </div>
             <div class="project-content">
               <h3>AI in Healthcare: Transforming Medical Diagnostics</h3>
@@ -239,16 +279,32 @@
     <section id="education" class="section section-compact-bottom">
       <div class="container">
         <h2>Education</h2>
-        <ul>
-          <li>
-            <a href="https://viterbigradadmission.usc.edu/programs/masters/msprograms/computer-science/ms-computer-science/">MS in Computer Science</a>, University of Southern California (2024 – Present)
-            <br /><em>Focus: Data Science</em>
-          </li>
-          <li>
-            <a href="https://www.clemson.edu/degrees/computer-science">BS in Computer Science</a>, Clemson University (2012 – 2017)
-            <br /><em>Minor: Philosophy</em>
-          </li>
-        </ul>
+
+        <article>
+          <h3><a href="https://viterbigradadmission.usc.edu/programs/masters/msprograms/computer-science/ms-computer-science/">MS in Computer Science</a></h3>
+          <span class="date-range">2024 – Present</span>
+          <ul>
+            <li>University of Southern California, Viterbi School of Engineering</li>
+            <li><em>Focus: Data Science</em></li>
+          </ul>
+          <h4>Graduate Coursework</h4>
+          <ul>
+            <li><strong>CSCI 561 — Foundations of Artificial Intelligence:</strong> Search algorithms, constraint satisfaction, probabilistic reasoning, and game-playing agents.</li>
+            <li><strong>CSCI 570 — Analysis of Algorithms:</strong> Advanced algorithm design and complexity analysis including dynamic programming, graph algorithms, and NP-completeness.</li>
+            <li><strong>CSCI 544 — Applied Natural Language Processing:</strong> Neural language models, sequence-to-sequence architectures, transformers, and text classification pipelines.</li>
+            <li><strong>CSCI 585 — Database Management Systems:</strong> Relational and NoSQL databases, query optimization, transaction processing, and distributed data systems.</li>
+            <li><strong>CSCI 567 — Machine Learning:</strong> Supervised and unsupervised learning, kernel methods, ensemble techniques, and deep learning fundamentals.</li>
+          </ul>
+        </article>
+
+        <article>
+          <h3><a href="https://www.clemson.edu/degrees/computer-science">BS in Computer Science</a></h3>
+          <span class="date-range">2012 – 2017</span>
+          <ul>
+            <li>Clemson University</li>
+            <li><em>Minor: Philosophy</em></li>
+          </ul>
+        </article>
       </div>
     </section>
 
@@ -259,12 +315,15 @@
         <article>
           <h3>A Rotary Dial for Gaze-based PIN Entry</h3>
           <p>
-            Best, Darrell S. and Duchowski, Andrew T. (2016). In <em>Proceedings of the Ninth Biennial ACM Symposium on Eye Tracking Research &amp; Applications (ETRA ’16)</em>, pages 69–76. ACM.
+            Best, Darrell S. and Duchowski, Andrew T. (2016). In <em>Proceedings of the Ninth Biennial ACM Symposium on Eye Tracking Research &amp; Applications (ETRA '16)</em>, pages 69–76. ACM.
           </p>
           <p>
             <a href="https://doi.org/10.1145/2857491.2857527" target="_blank" rel="noopener noreferrer">https://doi.org/10.1145/2857491.2857527</a>
           </p>
         </article>
+        <p class="text-center mt-2">
+          <a href="https://scholar.google.com/citations?user=iG2Bkd8AAAAJ&hl=en&oi=sra" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">View on Google Scholar</a>
+        </p>
       </div>
     </section>
 
@@ -275,95 +334,35 @@
         <h2>Skills</h2>
         <div class="skills-container">
           <div class="skill-category">
-            <h3>Programming</h3>
-            <div class="skill-item">
-              <div class="skill-info">
-                <span>Python</span>
-                <span>95%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 95%"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info">
-                <span>JavaScript</span>
-                <span>80%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 80%"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info">
-                <span>C++</span>
-                <span>75%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 75%"></div>
-              </div>
+            <h3>Languages</h3>
+            <div class="skill-tags">
+              <span class="tag">Python</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">C++</span>
+              <span class="tag">SQL</span>
+              <span class="tag">Bash</span>
             </div>
           </div>
 
           <div class="skill-category">
-            <h3>AI/ML Frameworks</h3>
-            <div class="skill-item">
-              <div class="skill-info">
-                <span>PyTorch</span>
-                <span>90%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 90%"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info">
-                <span>Hugging Face</span>
-                <span>85%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 85%"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info">
-                <span>TensorFlow</span>
-                <span>80%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 80%"></div>
-              </div>
+            <h3>AI / ML</h3>
+            <div class="skill-tags">
+              <span class="tag">PyTorch</span>
+              <span class="tag">Hugging Face</span>
+              <span class="tag">TensorFlow</span>
+              <span class="tag">DeepSpeed</span>
+              <span class="tag">Flower</span>
+              <span class="tag">scikit-learn</span>
             </div>
           </div>
 
           <div class="skill-category">
             <h3>DevOps & Tools</h3>
-            <div class="skill-item">
-              <div class="skill-info">
-                <span>Docker</span>
-                <span>85%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 85%"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info">
-                <span>Git/GitHub</span>
-                <span>90%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 90%"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info">
-                <span>CI/CD</span>
-                <span>75%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 75%"></div>
-              </div>
+            <div class="skill-tags">
+              <span class="tag">Docker</span>
+              <span class="tag">Git</span>
+              <span class="tag">CI/CD</span>
+              <span class="tag">Linux</span>
             </div>
           </div>
         </div>
@@ -374,8 +373,13 @@
     <section id="contact" class="section">
       <div class="container">
         <h2>Contact</h2>
-        <p><strong>Email:</strong> <span id="email-contact"><noscript>Enable JavaScript to view email</noscript></span></p>
-        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/darrellsbest/" target="_blank" rel="noopener noreferrer">linkedin.com/in/darrellsbest</a></p>
+        <div class="contact-intro">Open to collaborations in AI research and engineering. Feel free to reach out.</div>
+        <div class="contact-links">
+          <p><i data-feather="mail"></i><strong>Email:</strong> <span id="email-contact"><noscript>Enable JavaScript to view email</noscript></span></p>
+          <p><i data-feather="linkedin"></i><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/darrellsbest/" target="_blank" rel="noopener noreferrer">linkedin.com/in/darrellsbest</a></p>
+          <p><i data-feather="book-open"></i><strong>Scholar:</strong> <a href="https://scholar.google.com/citations?user=iG2Bkd8AAAAJ&hl=en&oi=sra" target="_blank" rel="noopener noreferrer">Google Scholar</a></p>
+          <p><i data-feather="github"></i><strong>GitHub:</strong> <a href="https://github.com/DarrellBest" target="_blank" rel="noopener noreferrer">github.com/DarrellBest</a></p>
+        </div>
       </div>
     </section>
 

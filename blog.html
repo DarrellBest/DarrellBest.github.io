@@ -19,282 +19,6 @@
 
   <link rel="stylesheet" href="css/main.css" />
   <script src="https://unpkg.com/feather-icons@4.29.2/dist/feather.min.js"></script>
-  <style>
-    /* Blog-specific styles */
-    #blog-header {
-      background: linear-gradient(135deg, var(--background-secondary) 0%, var(--background-tertiary) 100%);
-      padding: 4rem 0;
-      margin-bottom: 3rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    #blog-header h1 {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    #blog-header .subtitle {
-      font-size: 1.2rem;
-      color: var(--foreground-secondary);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* Blog navigation/filters */
-    .blog-nav {
-      margin-bottom: 3rem;
-      padding: 1.5rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .blog-categories {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .category-filter {
-      padding: 0.5rem 1.2rem;
-      background: rgba(78, 204, 163, 0.1);
-      border: 1px solid rgba(78, 204, 163, 0.2);
-      border-radius: var(--radius-full);
-      color: var(--accent);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      font-size: 0.9rem;
-    }
-
-    .category-filter:hover,
-    .category-filter.active {
-      background: var(--accent);
-      color: var(--background);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(78, 204, 163, 0.3);
-    }
-
-    /* Blog grid layout */
-    .blog-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 3rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    /* Individual blog post card */
-    .blog-post {
-      background: var(--background-secondary);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow-md);
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .blog-post:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-lg);
-      border-color: rgba(78, 204, 163, 0.2);
-    }
-
-    /* Featured post styling - removed to make all posts equal */
-
-    .blog-post-image {
-      height: 250px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .blog-post-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .blog-post:hover .blog-post-image img {
-      transform: scale(1.08);
-    }
-
-    .blog-post-content {
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-
-    /* Blog post metadata */
-    .blog-post-meta {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
-      color: var(--foreground-secondary);
-    }
-
-    .blog-post-meta span {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-
-    .blog-post-date {
-      color: var(--accent);
-    }
-
-    .blog-post-category {
-      background: rgba(78, 204, 163, 0.1);
-      padding: 0.2rem 0.6rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.8rem;
-      color: var(--accent);
-      font-weight: 500;
-    }
-
-    .reading-time {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-size: 0.85rem;
-    }
-
-    .reading-time svg {
-      width: 14px;
-      height: 14px;
-    }
-
-    /* Blog post title */
-    .blog-post h2 {
-      margin: 0.5rem 0 1rem 0;
-      font-size: 1.8rem;
-      line-height: 1.3;
-    }
-
-    .blog-post h2 a {
-      color: var(--foreground);
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .blog-post h2 a:hover {
-      color: var(--accent);
-    }
-
-    /* Blog post excerpt */
-    .blog-post-excerpt {
-      color: var(--foreground-secondary);
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-      flex-grow: 1;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    /* Blog post footer */
-    .blog-post-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: auto;
-    }
-
-    .blog-post-tags {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .read-more {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      color: var(--accent);
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .read-more:hover {
-      gap: 0.6rem;
-      color: var(--accent-dark);
-    }
-
-    .read-more svg {
-      width: 16px;
-      height: 16px;
-      transition: transform 0.3s ease;
-    }
-
-    .read-more:hover svg {
-      transform: translateX(3px);
-    }
-
-    /* Newsletter signup */
-    .newsletter-section {
-      background: linear-gradient(135deg, var(--background-secondary) 0%, var(--background-tertiary) 100%);
-      padding: 3rem;
-      border-radius: var(--radius-lg);
-      text-align: center;
-      margin: 4rem auto;
-      max-width: 600px;
-      border: 1px solid rgba(78, 204, 163, 0.2);
-    }
-
-    .newsletter-section h3 {
-      margin-bottom: 1rem;
-      color: var(--accent);
-    }
-
-    .newsletter-section p {
-      margin-bottom: 2rem;
-      color: var(--foreground-secondary);
-    }
-
-    /* Responsive design */
-    @media (max-width: 768px) {
-      #blog-header h1 {
-        font-size: 2.5rem;
-      }
-
-      .blog-post h2 {
-        font-size: 1.5rem;
-      }
-
-      .blog-categories {
-        gap: 0.5rem;
-      }
-
-      .category-filter {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.85rem;
-      }
-    }
-
-    /* Loading skeleton */
-    .skeleton {
-      animation: skeleton-loading 1s linear infinite alternate;
-    }
-
-    @keyframes skeleton-loading {
-      0% {
-        background-color: rgba(255, 255, 255, 0.05);
-      }
-      100% {
-        background-color: rgba(255, 255, 255, 0.1);
-      }
-    }
-  </style>
 </head>
 <body>
   <!-- Mobile Header (Visible on Mobile Only) -->
@@ -370,6 +94,11 @@
         </a>
       </li>
       <li>
+        <a href="https://scholar.google.com/citations?user=iG2Bkd8AAAAJ&hl=en&oi=sra" class="nav-item" target="_blank" rel="noopener noreferrer">
+          <i data-feather="award"></i>  Scholar
+        </a>
+      </li>
+      <li>
         <a href="https://github.com/DarrellBest" class="nav-item" target="_blank" rel="noopener noreferrer">
           <i data-feather="github"></i>  GitHub
         </a>
@@ -408,7 +137,7 @@
           <!-- Blog Post 1 -->
           <article class="blog-post" data-category="research">
             <div class="blog-post-image">
-              <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Multilingual LLM Article">
+              <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Multilingual LLM Article" loading="lazy">
             </div>
             <div class="blog-post-content">
               <div class="blog-post-meta">
@@ -434,7 +163,7 @@
           <!-- Blog Post 2 -->
           <article class="blog-post" data-category="healthcare">
             <div class="blog-post-image">
-              <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Medical AI Article">
+              <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Medical AI Article" loading="lazy">
             </div>
             <div class="blog-post-content">
               <div class="blog-post-meta">
@@ -460,7 +189,7 @@
           <!-- Blog Post 3 -->
           <article class="blog-post" data-category="privacy">
             <div class="blog-post-image">
-              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2068&q=80" alt="Federated Learning Article">
+              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2068&q=80" alt="Federated Learning Article" loading="lazy">
             </div>
             <div class="blog-post-content">
               <div class="blog-post-meta">
@@ -486,7 +215,7 @@
           <!-- Blog Post 4 -->
           <article class="blog-post" data-category="ethics">
             <div class="blog-post-image">
-              <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="AI Ethics Article">
+              <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="AI Ethics Article" loading="lazy">
             </div>
             <div class="blog-post-content">
               <div class="blog-post-meta">
@@ -512,7 +241,7 @@
           <!-- Blog Post 5 -->
           <article class="blog-post" data-category="hardware">
             <div class="blog-post-image">
-              <img src="https://images.unsplash.com/photo-1591405351990-4726e331f141?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="AI Hardware Article">
+              <img src="https://images.unsplash.com/photo-1591405351990-4726e331f141?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="AI Hardware Article" loading="lazy">
             </div>
             <div class="blog-post-content">
               <div class="blog-post-meta">
