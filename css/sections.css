@@ -562,6 +562,17 @@ article ul li {
   margin-right: 0.5rem;
 }
 
+/* Compact section spacing for adjacent sections */
+.section-compact-bottom {
+  padding-bottom: 0.5rem;
+  margin-bottom: -1.5rem;
+}
+
+.section-compact-top {
+  padding-top: 0.5rem;
+  margin-top: -1.5rem;
+}
+
 /* Blog Header */
 #blog-header {
   text-align: center;
